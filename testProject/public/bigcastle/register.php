@@ -6,22 +6,22 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Document</title>
             <script>
-                function checkid(){
-                    var user_id = document.getElementById("user_id").value;
-                    if(user_id){
-                        url = "register.php?user_id="+user_id;
-                        alert('사용할 수 있는 아이디입니다')
-                    }else{
-                        alert('사용할 수 없는 아이디입니다')
-                    }
-                }
+                // function checkid(){
+                //     var user_id = document.getElementById("user_id").value;
+                //     if(user_id){
+                //         url = "register.php?user_id="+user_id;
+                //         alert('사용할 수 있는 아이디입니다')
+                //     }else{
+                //         alert('사용할 수 없는 아이디입니다')
+                //     }
+                // }
 
 
             </script>
         </head>
         <body>
             <h1>회원가입 페이지</h1>
-            <form action='register_action' method='post'>
+            <form action='register_action.php?mode=register' method='post'>
                 <fieldset>
                     <table style="border =5">
                     <label><p>이름</p></label>
@@ -35,7 +35,7 @@
                     <input type ='password' id='user_pw' name = 'user_pw' placeholder="비밀번호를 입력해주세요">
 
                     <label><p>비밀번호 확인</p></label>
-                    <input type ='password' id ='user_pw_ck' name = 'user_pw_ck' placeholder="비밀번호를 다시 입력해주세요">
+                    <input type ='password' id ='user_pw2' name = 'user_pw2' placeholder="비밀번호를 다시 입력해주세요">
                     
                     <label><p>성별</p></label>
                   

@@ -1,6 +1,6 @@
 <?php
 
-    // require_once "경로"
+    // require_once "./db/db.php";
 
     $path = "/bigcastle";
 
