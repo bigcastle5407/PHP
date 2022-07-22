@@ -1,6 +1,6 @@
 <?php
 
- $dns = "mysql:host=localhost;port=3306;dbname=testDB";
+ $dns = "mysql:host=localhost;port=3306;dbname=testdb";
  $username="root";
  $pw="qwe123";
 

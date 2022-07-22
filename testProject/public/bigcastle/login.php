@@ -10,7 +10,7 @@
     <h1>로그인페이지</h1>
 
 
-    <form action='register_action.php?mode=login' method ='POST'>
+    <form action='action.php?mode=login' method ='POST'>
         <fieldset>
             <label><p>아이디</p></label>
             <input type ='text' name = 'user_id' id = "user_id">
@@ -20,7 +20,7 @@
 
             <input type ='submit' value='로그인'>
             <input type ='reset' value='취소'>
-            <a href ='./index.php'>뒤로가기 </a>
+            <a href ='/main.php'>뒤로가기 </a>
 
         </fieldset>
 

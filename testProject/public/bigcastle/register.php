@@ -1,3 +1,6 @@
+        <?php
+        require_once('./db/db.php');
+        ?>
         <!DOCTYPE html>
         <html lang="en">
         <head>
@@ -5,59 +8,85 @@
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Document</title>
+            <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
             <script>
-                // function checkid(){
-                //     var user_id = document.getElementById("user_id").value;
-                //     if(user_id){
-                //         url = "register.php?user_id="+user_id;
-                //         alert('사용할 수 있는 아이디입니다')
-                //     }else{
-                //         alert('사용할 수 없는 아이디입니다')
-                //     }
-                // }
-
-
-            </script>
+            $(document).ready(function(e) { 
+	        $(".check").on("keyup", function(){ //check라는 클래스에 입력을 감지
+		    var self = $(this); 
+		    var user_id; 
+		
+		    if(self.attr("user_id") === "user_id"){ 
+			user_id = self.val(); 
+		    } 
+		
+		    $.post( //post방식으로 id_check.php에 입력한 userid값을 넘깁니다
+			"action.php?mode=id_check",
+			{ user_id : user_id }, 
+			function(data){ 
+				if(data){ //만약 data값이 전송되면
+					self.parent().parent().find("div").html(data); //div태그를 찾아 html방식으로 data를 뿌려줍니다.
+					self.parent().parent().find("div").css("color", "#F00"); //div 태그를 찾아 css효과로 빨간색을 설정합니다
+				}
+			}
+		);
+	});
+});
+</script>
+            
         </head>
         <body>
-            <h1>회원가입 페이지</h1>
-            <form action='register_action.php?mode=register' method='post'>
+            <form action='action.php?mode=register' method='post'>
+                <h1>회원가입 페이지</h1>
                 <fieldset>
-                    <table style="border =5">
-                    <label><p>이름</p></label>
-                    <input type ='text' id='user_name' name = 'user_name' placeholder="이름을 입력해주세요">
-
-                    <label><p>아이디</p></label>
-                    <input type ='text' id='user_id' name = 'user_id' placeholder="아이디를 입력해주세요">
-                    <input type="button" id="check_button" value="ID 중복 검사" onclick="checkid();"></p>
-
-                    <label><p>비밀번호</p></label>
-                    <input type ='password' id='user_pw' name = 'user_pw' placeholder="비밀번호를 입력해주세요">
-
-                    <label><p>비밀번호 확인</p></label>
-                    <input type ='password' id ='user_pw2' name = 'user_pw2' placeholder="비밀번호를 다시 입력해주세요">
-                    
-                    <label><p>성별</p></label>
-                  
-                        <input type ='radio' id = 'user_gender' name = 'user_gender' value='m' checked>남
-                        
-                  
-                        <input type ='radio' id = 'user_gender' name = 'user_gender' value='w'>여
-                    
-                    
+                    <legend>입력사항</legend>
+                    <table>
+                        <tr>
+                            <td>이름</td>
+                            <td><input type ='text' id='user_name' name = 'user_name' placeholder="이름을 입력해주세요"></td>
+                           
+                        </tr>
+                        <tr>
+                            <td>아이디</td>
+                            <td><input type ='text' id='user_id' name = 'user_id' class = "check" placeholder="아이디를 입력해주세요"></td>
+                            <td><div id = "id_check">아이디가 실시간으로 검색됩니다</div></td>
+                        </tr>
+                        <tr>
+                            <td>비밀번호</td>
+                            <td><input type ='password' id='user_pw' name = 'user_pw' placeholder="비밀번호를 입력해주세요"></td>
+                            
+                        </tr>
+                        <tr>
+                            <td>비밀번호 확인</td>
+                            <td> <input type ='password' id ='user_pw2' name = 'user_pw2' placeholder="비밀번호를 다시 입력해주세요"></td>
+                            
+                        </tr>
+                        <tr>
+                            <td>성별</td>
+                            <td>
+                                 <input type ='radio' id = 'user_gender' name = 'user_gender' value='m' checked>남
+                                <input type ='radio' id = 'user_gender' name = 'user_gender' value='w'>여
+                            </td>
+                            
+                        </tr>
+                        <tr>
+                            <td>생년월일</td>
+                            <td><input type="date" id = "user_date" name ="user_date"></td>
+                           
+                        </tr>
+                        <tr>
+                            <td>전화번호</td>
+                            <td><input type="text" maxlength = "13" name = "user_tel" id="tel1" placeholder="핸드폰번호를 입력해주세요"></td>
+                            
+                        </tr>
                    
-
-                    <label><p>생년월일</p></label>
-                    <input type="date" id = "user_date" name ="user_date">
-
-                    <label><p>핸드폰 번호</p></label>
-                    <input type="text" maxlength = "13" name = "user_tel" id="tel1" placeholder="핸드폰번호를 입력해주세요">
-
                     
                     <br><br><br>
-
-                    <input type ='submit' value='회원가입'>
-                    <input type ='reset' value='취소'>
+                    <tr>
+                        <td>
+                            <input type ='submit' value='가입'> &nbsp;
+                            <input type ='button' value='뒤로가기' onClick='history.back()'>
+                        </td>
+                    </tr>
                     </table>
                 </fieldset>
             </form>

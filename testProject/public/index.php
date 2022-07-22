@@ -1,7 +1,7 @@
 <?php
 
 
-require_once './bigcastle/index.php';
+require_once './bigcastle/main.php';
 exit;
 
 use Illuminate\Contracts\Http\Kernel;

@@ -1,16 +1,6 @@
 <?php
 session_start();
 
-
-if(!isset($_SESSION['user_id'])){
-
-    hearder ('Location: ./bigcaslte/login.php');
-
-} 
-
-$user_id = $_SESSION['user_id'];
-
-
 ?>
 
 
@@ -23,9 +13,23 @@ $user_id = $_SESSION['user_id'];
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/css/css.css">
 </head>
 <body>
-    <p> <?=$user_id?> 님 환영합니다.</p>
-    <a href= logout.php>로그아웃</a>
+    <hearder>
+        <div class="topBar" style ="text-align : right; margin-right : 30px; height : 60px; font-size :20px; background-color : gray;">
+        <?php
+
+            if(!isset($_SESSION['user_id'])){
+                echo "<a href='/bigcastle/login.php'>로그인</a>&nbsp;|&nbsp;";
+                echo "<a href='/bigcastle/register.php'>회원가입 </a>";
+            }else{
+                echo '<span>'.$_SESSION['user_id'].'님 환영합니다.</span>&nbsp;&nbsp;';
+                echo "<a href= logout.php?mode=logout>로그아웃</a>";
+            
+            }
+         ?>
+         </div>
+    </header>
 </body>
 </html>
