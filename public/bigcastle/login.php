@@ -10,17 +10,17 @@
     <h1>로그인페이지</h1>
 
 
-    <form action='login_action.php' method ='POST'>
+    <form action='action.php?mode=login' method ='POST'>
         <fieldset>
             <label><p>아이디</p></label>
-            <input type ='text' name = 'user_id'>
+            <input type ='text' name = 'user_id' id = "user_id">
 
             <label><p>비밀번호</p></label>
-            <input type ='password' name = 'user_pw'><br><br><br>
+            <input type ='password' name = 'user_pw' id ="user_pw"><br><br><br>
 
             <input type ='submit' value='로그인'>
             <input type ='reset' value='취소'>
-            <a href ='./index.php'>뒤로가기 </a>
+            <a href ='/main.php'>뒤로가기 </a>
 
         </fieldset>
 
