@@ -4,7 +4,11 @@ session_start();
 $del = session_destroy();
 
 if($del){
+<<<<<<< Updated upstream
     header('Location: index.php');
+=======
+    header('Location: main.php');
+>>>>>>> Stashed changes
 }
 
 ?>
