@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 메인 페이지와 관련된 타이틀 태그 작성 -->
     <title>Document</title>
 </head>
 <body>

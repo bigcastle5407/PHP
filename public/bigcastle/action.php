@@ -1,4 +1,7 @@
 <?php
+
+    // 개발자들과 협업하는 경우 코드사이의 불필요한 공백 또는 띄어쓰지 않은 부분들은 제거가 필요함 - PSR 참조
+
     session_start();
     require_once('./db/db.php');
 
