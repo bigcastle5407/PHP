@@ -3,9 +3,6 @@ session_start();
 
 ?>
 
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +14,7 @@ session_start();
 </head>
 <body>
     <hearder>
-        <div class="topBar" style ="text-align : right; margin-right : 30px; height : 60px; font-size :20px; background-color : gray;">
+        <div class="topBar" style ="text-align:right; margin-right:30px; height:60px; font-size:20px; background-color:gray;">
         <?php
 
             if(!isset($_SESSION['user_id'])){
@@ -25,8 +22,8 @@ session_start();
                 echo "<a href='/bigcastle/register.php'>회원가입 </a>";
             }else{
                 echo '<span>'.$_SESSION['user_id'].'님 환영합니다.</span>&nbsp;&nbsp;';
-                echo "<a href= logout.php?mode=logout>로그아웃</a>";
-            
+                echo "<a href = 'update_user.php'>회원정보수정</a>&nbsp;&nbsp;";
+                echo "<a href= 'action.php?mode=logout'>로그아웃</a>";
             }
          ?>
          </div>

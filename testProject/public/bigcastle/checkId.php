@@ -6,7 +6,7 @@
     if(!$user_id){
         echo "
         <p>아이디를 입력해주세요.</p>
-        <center><input type=button value=창닫기 onclick='self.close()'></center>
+        <center><input type='button' value='창닫기' onclick='self.close();'></center>
         ";
     } else{
         $sql = $db -> prepare("SELECT * FROM tb_user WHERE user_id=:user_id");
@@ -17,12 +17,12 @@
             if($count<1){
                 echo "
                 <p>사용 가능한 아이디입니다.</p>
-                <center><input type=button value=창닫기 onclick='self.close()'></center>
+                <center><input type='button' value='창닫기' onclick='self.close()'></center>
                 ";
             } else{
                 echo "
                 <p>이미 존재하는 아이디입니다.</p>
-                <center><input type=button value=창닫기 onclick='self.close()'></center>
+                <center><input type='button' value='창닫기' onclick='self.close()'></center>
                 ";
             }
     }

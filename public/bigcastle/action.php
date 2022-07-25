@@ -7,6 +7,7 @@
 
         
         switch($_GET['mode']){
+            //회원가입
             case 'register':
                 $user_name = $_POST['user_name'];
                 $user_id = $_POST['user_id'];
@@ -87,23 +88,23 @@
 
 
 
-            case 'id_check':
-                $user_id = $_POST['user_id'];
+            // case 'id_check':
+            //     $user_id = $_POST['user_id'];
                 
-                if($_POST['user_id'] != NULL){
-                    $id_check = mq("select * from tb_user where user_id='" .$user_id."'");
-                    $id_check = $id_check->fetch_array();
+            //     if($_POST['user_id'] != NULL){
+            //         $id_check = mq("select * from tb_user where user_id='" .$user_id."'");
+            //         $id_check = $id_check->fetch_array();
                     
-                    if($id_check >= 1){
-                        echo("<script>alert('이미 사용중인 아이디입니다.'); history.back();</script>");
+            //         if($id_check >= 1){
+            //             echo("<script>alert('이미 사용중인 아이디입니다.'); history.back();</script>");
                         
-                    }else{
-                        echo("<script>alert('사용할 수 있는 아이디입니다.'); history.back();</script>");
-                    }
+            //         }else{
+            //             echo("<script>alert('사용할 수 있는 아이디입니다.'); history.back();</script>");
+            //         }
                     
-                    echo "<script> Location.replace('/bigcastle/main.php')</script>";
-                    break;
-            }
+            //         echo "<script> Location.replace('/bigcastle/main.php')</script>";
+            //         break;
+            // }
 
         }
         
