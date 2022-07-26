@@ -72,7 +72,7 @@
                 }
 
                 if($row == null){
-                    echo '로그인 실패';
+                    echo '로그인 실패sss';
                 }
 
                 if(!$user_id){
