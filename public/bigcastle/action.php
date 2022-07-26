@@ -15,7 +15,7 @@
                 
                 if(!is_null($user_id)){
                     $conn = mysqli_connect('localhost','root','qwe123','testdb');
-                    $sql = "SELECT user_id FROM tb_user WHERE user_id = '$user_id';";
+                    $sql = "select user_id from tb_user where user_id = '$user_id';";
                     $result = mysqli_query($conn, $sql);
 
                     while($row = mysqli_fetch_array($result)){
@@ -30,7 +30,7 @@
                         $wp = 1;
                     }else{
                         // $encrypted_password = password_hash($password, PASSWORD_DEFAULT);
-                        $sql_add = "INSERT INTO tb_user VALUES ('$user_name', '$user_id','$user_pw', '$user_gender','$user_date','$user_tel');";
+                        $sql_add = "insert into tb_user values ('$user_name', '$user_id','$user_pw', '$user_gender','$user_date','$user_tel');";
                     }
 
                     mysqli_query($conn, $sql_add);
@@ -59,9 +59,9 @@
         
 
                 $conn = mysqli_connect('localhost','root','qwe123','testdb');
-                $sql = "SELECT * FROM tb_user WHERE user_id='{$user_id}' AND user_pw = '{$user_pw}'";
+                $sql = "select * from tb_user where user_id='{$user_id}' and user_pw = '{$user_pw}'";
                 $result = mysqli_query($conn, $sql);
-                $row = $result -> fetch_array(MYSQLI_ASSOC);
+                $row = $result -> fetch_array(MYSQLI_ASSOC); //MYSQLI_ASSOC : 컬럼명으로 값을 불러옴
 
                 if($row != null){
                     $_SESSION['user_id'] = $user_id;
