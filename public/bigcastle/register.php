@@ -1,17 +1,8 @@
         <?php
         require_once('./db/db.php');
-
-        /**
-         * 작성 순서는 상단에 php 로직 - 중간에 html - 마지막에 자바스크립트 순으로 가급적 처리할 것
-         * 
-         * 예)
-         * 
-         * 1. PHP 로직 ( DB 불러오기 등)
-         * 2. HTML 페이지
-         * 3. 해당 페이지에 관련된 자바스크립트 프로그래밍
-         * 
-         */
         ?>
+
+
         <!DOCTYPE html>
         <html lang="en">
         <head>

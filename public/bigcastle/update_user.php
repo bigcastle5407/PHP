@@ -15,7 +15,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="action.php?mode=update" method='POST'>
+    <form action='action.php?mode=update' method='POST'>
         <fieldset>
             <legend>회원정보수정</legend>
                 

@@ -6,5 +6,3 @@ $del = session_destroy();
 if($del){
     header('Location: main.php');
 }
-
-?>
