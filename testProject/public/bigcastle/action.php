@@ -130,7 +130,7 @@
                 if($res){
                     echo("<script>alert('회원정보수정 성공'); history.back();</script>");
                     session_unset();
-                    header('location:bigcastle/main.php');
+                    header('location:main.php');
                 }else{
                     echo("<script>alert('회원정보수정 실패'); history.back();</script>");
                 }
