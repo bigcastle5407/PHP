@@ -1,8 +1,6 @@
 <?php 
     session_start();
-
     $user_id = $_SESSION['user_id'];
-    
     require_once('./db/db.php');
     
     $sql = $db -> prepare("SELECT * FROM tb_user WHERE user_id=:user_id");
@@ -21,7 +19,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form action='action.php?mode=update' method='POST'>
+    <form action='update_action.php' method='POST'>
         <fieldset>
             <legend>회원정보수정</legend>
                 <input type="hidden" name="user_id" value="<?= $row['user_id']?>">
@@ -44,12 +42,7 @@
                     <input type="submit" value="수정">
                     <input type="button" value="취소" onclick="history.back(1)">
                     <a href="delete.php?id=<?=$user_id?>">회원 탈퇴 </a>
-
-​
-                            
-
         </fieldset>
     </form>
-
 </body>
 </html>

@@ -9,7 +9,9 @@
         <center><input type='button' value='창닫기' onclick='self.close();'></center>
         ";
     } else{
-        $sql = $db -> prepare("SELECT * FROM tb_user WHERE user_id=:user_id");
+        $sql = $db -> prepare("select *
+                                from tb_user 
+                                where user_id=:user_id");
         $sql -> bindParam(':user_id',$user_id);
         $sql -> execute();
         $count = $sql -> rowCount();
@@ -28,10 +30,13 @@
     }
 ?>
 <!DOCTYPE html>
-<html lang="kor">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>중복확인</title>
+    <title>아이디 중복확인</title>
 </head>
+<body>
+</body>
 </html>
