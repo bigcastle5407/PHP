@@ -112,9 +112,16 @@
                 $user_pw = $_POST['user_pw'];
                 $user_pw2 = $_POST['user_pw2'];
 
-              
-                $sql ="UPDATE tb_user SET user_pw='$user_pw' WHERE user_id='$user_id'";
-                $res = $db->query($sql);
+                $stmt = $db -> prepare("select * from tb_user where user_id=:user_id");
+                $stmt -> bindParam("user_id",$user_id);
+                $stmt -> execute();
+                $user = $stmt -> fetch();
+
+
+                $sql = $db -> prepare("update tb_user set user_pw=:user_pw where user_id=:user_id");
+                $sql -> bindParam("user_pw",$user_pw);
+                $sql -> bindParam("user_id",$user_id);
+    
 
                 
                 
@@ -122,17 +129,14 @@
                     echo("<script>alert('비밀번호를 입력해주세요'); history.back();</script>");
                 } elseif($user_pw != $user_pw2){
                     echo("<script>alert('비밀번호가 일치하지 않습니다'); history.back();</script>");
-                }
+                }elseif($pw1 == $user['pw']){
+                    echo("<script>alert('이전 비밀번호와 같습니다.'); history.back();</script>");
                 
-                if($res){
-                    echo("<script>alert('회원정보수정 성공'); history.back();</script>");
-                    session_unset();
-                    header('location:main.php');
-                }else{
-                    echo("<script>alert('회원정보수정 실패'); history.back();</script>");
                 }
-
-                
+                $sql -> execute();
+                 
+                session_unset();
+                header('location:main.php');
 
                 break;
 
@@ -145,4 +149,5 @@
 
 
         }
+    
         
