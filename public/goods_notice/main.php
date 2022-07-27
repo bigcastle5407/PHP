@@ -42,7 +42,7 @@
       <th style="width:150px; text-align:center;">수정일자</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody id="input_data">
     <?php
       while($data = mysqli_fetch_array($result)){
         $goods_nm = $data['goods_nm'];
@@ -77,6 +77,20 @@
         window.open('goods_notice/reg_popup.php','register page','left=600, top=500, width=700, height=900, scrollbars=no, resizeable=no');
     }
 </script>
-    
+
+<script>
+  $(document).ready(function(){
+    $('#reg_btn').click(function(){
+      
+      $.ajax({
+        url:"reg_popup.php",
+        type: "post",
+        data: $("form").serialize(),
+      }).done(function(data){
+        $("#input_data").html(data);
+      });
+    });
+  });
+</script>
 </body>
 </html>

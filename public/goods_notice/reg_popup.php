@@ -12,7 +12,7 @@
 <body style="margin-left:30px; margin-right:30px; margin-top:30px;">
 <h1 style="text-align:center; padding-bottom:20px; border-bottom:1px gray solid;">상품등록</h1>
 
-<form action="goods_action.php" method="POST">
+<!-- <form action="goods_action.php" method="POST"> -->
   <div class="form-group row">
     <label for="category" class="col-sm-2 col-form-label"><h3>카테고리</h3></label>
     <div class="col-sm-10">
@@ -76,7 +76,7 @@
       <button class="btn btn-warning" onclick="window.close()">취소</button>
     </div>
   </div>
-</form>
+<!-- </form> -->
 
 <!-- 가격 1000원 단위로 (,)찍는 스크립트 -->
 <script>
@@ -103,5 +103,6 @@
 	    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g,'$1');
 	}
 </script>
+
 </body>
 </html>
