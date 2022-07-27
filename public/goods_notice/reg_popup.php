@@ -11,7 +11,7 @@
 </head>
 <body style="margin-left:30px; margin-right:30px; margin-top:30px;">
 <h1 style="text-align:center; padding-bottom:20px; border-bottom:1px gray solid;">상품등록</h1>
-<form>
+<form action="goods_action.php" method="POST">
   <div class="form-group row">
     <label for="category" class="col-sm-2 col-form-label"><h3>카테고리</h3></label>
     <div class="col-sm-10">
@@ -28,13 +28,13 @@
   <div class="form-group row">
     <label for="productName" class="col-sm-2 col-form-label"><h3>상품명</h3></label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="productName" placeholder="상품명을 입력해주세요">
+      <input type="text" class="form-control" id="productName" name="productName" placeholder="상품명을 입력해주세요">
     </div>
   </div>
   <div class="form-group row">
-    <label for="productName" class="col-sm-2 col-form-label"><h3>색상</h3></label>
+    <label for="color" class="col-sm-2 col-form-label"><h3>색상</h3></label>
     <div class="container">
-	<select class="form-control">
+	<select class="form-control" name="color">
 	  <option>색상을 선택하세요</option>
 	  <option value="red">red</option>
 	  <option value="black">black</option>
@@ -53,7 +53,7 @@
   <div class="form-group row">
     <label for="productName" class="col-sm-2 col-form-label"><h3>사이즈</h3></label>
     <div class="container">
-	<select class="form-control">
+	<select class="form-control" name="size">
 	  <option>사이즈를 선택하세요</option>
 	  <option value="XL">XL</option>
 	  <option value="L">L</option>
@@ -67,7 +67,7 @@
   <div class="form-group row">
     <label for="price" class="col-sm-2 col-form-label"><h3>가격</h3></label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="price" placeholder="가격을 입력해주세요" onkeyup="inputNumberFormat(this);">
+      <input type="text" class="form-control" id="price" name="price" placeholder="가격을 입력해주세요" onkeyup="inputNumberFormat(this);">
     </div>
   </div>
   <div class="form-group row">
