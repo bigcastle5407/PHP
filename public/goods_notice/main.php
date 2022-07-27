@@ -4,9 +4,10 @@
   $conn = mysqli_connect('localhost','root','qwe123','goods');
   $sql = "select * 
           from goods 
-          order by idx desc limit 0,10";
+          order by idx desc limit 0,50";
   $result = mysqli_query($conn, $sql);
   $table = $result -> fetch_array(MYSQLI_ASSOC);
+  
   $idx = $table['idx'];
   $category = $table['category'];
   $goods_nm = $table['goods_nm'];
@@ -31,26 +32,39 @@
 <table class="table table-striped" style="width:1500px; margin:auto;">
   <thead>
     <tr>
-      <th scope="col">NO</th>
-      <th scope="col">카테고리</th>
-      <th scope="col">상품명</th>
-      <th scope="col">색상</th>
-      <th scope="col">사이즈</th>
-      <th scope="col">등록일자</th>
-      <th scope="col">수정일자</th>
+      <th style="text-align:center;">NO</th>
+      <th style="text-align:center;">카테고리</th>
+      <th style="text-align:center;">상품명</th>
+      <th style="text-align:center;">색상</th>
+      <th style="text-align:center;">사이즈</th>
+      <th style="text-align:center;">가격</th>
+      <th style="width:150px; text-align:center;">등록일자</th>
+      <th style="width:150px; text-align:center;">수정일자</th>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th scope="row"><?=$idx?></th>
-      <td><?=$category?></td>
-      <td><?=$goods_nm?></td>
-      <td><?=$color?></td>
-      <td><?=$size?></td>
-      <td><?=$rt?></td>
-      <td><?=$ut?></td>
+    <?php
+      while($data = mysqli_fetch_array($result)){
+        $goods_nm = $data['goods_nm'];
+        if(strlen($goods_nm)>30){
+          $goods_nm=str_replace($data['goods_nm'],mb_substr($data['goods_nm'],0,30,"utf-8")."...",$data['goods_nm']);
+        }
+
+
+    ?>
+    <tr style="text-align:center;">
+      <th style="text-align:center; width:50px;"><?=$data['idx']?></th>
+      <td style="width:100px;"><?=$data['category']?></td>
+      <td style="width:170px;"><?=$data['goods_nm']?></td>
+      <td style="width:60px;"><?=$data['color']?></td>
+      <td style="width:60px;"><?=$data['size']?></td>
+      <td style="width:60px;"><?=$data['price'].'원'?></td>
+      <td><?=$data['rt']?></td>
+      <td><?=$data['ut']?></td>
     </tr>
-    
+    <?php
+      }
+    ?>
   </tbody>
 </table>
 
