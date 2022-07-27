@@ -22,26 +22,26 @@
     <form action='update_action.php' method='POST'>
         <fieldset>
             <legend>회원정보수정</legend>
-                <input type="hidden" name="user_id" value="<?= $row['user_id']?>">
-                    <table>
-                        <tr>
-                            <td>아이디</td>
-                            <td><input type="text" id="user_id" name="user_id" value="<?=$row['user_id']?>" disabled></td>
-                        </tr>
-                        
-                        <tr>
-                            <td>새 비밀번호</td>
-                            <td><input type="password" id="user_pw" name="user_pw"></td>
-                        </tr>
-                        
-                        <tr>
-                            <td>비밀번호 확인</td>
-                            <td><input type="password" id="user_pw2" name="user_pw2"></td>
-                        </tr>
-                    </table>
-                    <input type="submit" value="수정">
-                    <input type="button" value="취소" onclick="history.back(1)">
-                    <a href="delete.php?id=<?=$user_id?>">회원 탈퇴 </a>
+            <input type="hidden" name="user_id" value="<?= $row['user_id']?>">
+            <table>
+                <tr>
+                    <td>아이디</td>
+                    <td><input type="text" id="user_id" name="user_id" value="<?=$row['user_id']?>" disabled></td>
+                </tr>
+                
+                <tr>
+                    <td>새 비밀번호</td>
+                    <td><input type="password" id="user_pw" name="user_pw"></td>
+                </tr>
+                
+                <tr>
+                    <td>비밀번호 확인</td>
+                    <td><input type="password" id="user_pw2" name="user_pw2"></td>
+                </tr>
+            </table>
+            <input type="submit" value="수정">
+            <input type="button" value="취소" onclick="history.back(1)">
+            <a href="delete.php?id=<?=$user_id?>">회원 탈퇴 </a>
         </fieldset>
     </form>
 </body>

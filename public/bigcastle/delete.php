@@ -17,7 +17,8 @@
         if(result == true){
             <?php
                     $conn = mysqli_connect("localhost", "root", "qwe123", "testdb");
-                    $sql = "delete from tb_user where user_id = '$user_id'";
+                    $sql = "delete from tb_user 
+                            where user_id = '$user_id'";
                     mysqli_query($conn,$sql);
                     unset($_SESSION['user_id']);
                     mysqli_close($conn);

@@ -43,6 +43,7 @@
                 }
                 break;
 
+            
             // 로그인 기능
             case 'login':
                 $user_id = $_POST['user_id'];

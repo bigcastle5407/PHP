@@ -18,18 +18,19 @@ if(!is_null($user_id)){
     $result = mysqli_query($conn, $sql);
 
     while($row = mysqli_fetch_array($result)){
-        $user_id_e = $row['user_id'];
+        $user_id2 = $row['user_id'];
         echo("<script>alert('이미 사용중인 아이디입니다.'); history.back();</script>");
     }
 
-    if($user_id == $user_id_e){
+    if($user_id == $user_id2){
         
     }else if($user_pw != $user_pw2){
         echo("<script>alert('비밀번호가 일치하지 않습니다.'); history.back();</script>");
     }else{
         //비밀번호 암호화
         // $encrypted_password = password_hash($password, PASSWORD_DEFAULT);
-        $sql_add = "insert into tb_user values ('$user_name', '$user_id','$user_pw', '$user_gender','$user_date','$user_tel')";
+        $sql_add = "insert into tb_user
+                    values ('$user_name', '$user_id','$user_pw', '$user_gender','$user_date','$user_tel')";
     }
 
     mysqli_query($conn, $sql_add);
