@@ -1,10 +1,10 @@
 <?php
   require_once('goods_notice/db/db.php');
-
+  
   $conn = mysqli_connect('localhost','root','qwe123','goods');
   $sql = "select * 
-          from goods 
-          order by idx desc limit 0,50";
+  from goods 
+  order by idx desc limit 0,50";
   $result = mysqli_query($conn, $sql);
   $table = $result -> fetch_array(MYSQLI_ASSOC);
   
@@ -15,10 +15,10 @@
   $size = $table['size'];
   $rt = $table['rt'];
   $ut = $table['ut'];
-?>
+  ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,9 +26,13 @@
     <link rel="stylesheet" href="goods_notice/resource/css/bootstrap.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="goods_notice/resource/js/bootstrap.js"></script>
-</head>
-<body style="width:90%; margin:auto;">
-<h1 style="text-align:center; border-bottom:1px gray solid; padding-bottom:30px;">상품 관리</h1>
+  </head>
+  <body style="width:90%; margin:auto;">
+    <h1 style="text-align:center; border-bottom:1px gray solid; padding-bottom:30px;">상품 관리</h1>
+    <div style="text-align:right;padding-top:30px;">
+      <input type="button" class="btn btn-primary" id="reg_btn" name="reg_btn" value="등록" onclick="open_popup();" >&nbsp;&nbsp;&nbsp;
+      <input type="button" class="btn btn-primary" id="select_btn" name="select_btn" value="조회" >
+    </div><br>
 <table class="table table-striped" style="width:1500px; margin:auto;">
   <thead>
     <tr>
@@ -42,23 +46,21 @@
       <th style="width:150px; text-align:center;">수정일자</th>
     </tr>
   </thead>
-  <tbody id="input_data">
+  <tbody>
     <?php
       while($data = mysqli_fetch_array($result)){
         $goods_nm = $data['goods_nm'];
-        if(strlen($goods_nm)>30){
+        if(strlen($goods_nm)>50){
           $goods_nm=str_replace($data['goods_nm'],mb_substr($data['goods_nm'],0,30,"utf-8")."...",$data['goods_nm']);
         }
-
-
     ?>
-    <tr style="text-align:center;">
-      <th style="text-align:center; width:50px;"><?=$data['idx']?></th>
-      <td style="width:100px;"><?=$data['category']?></td>
-      <td style="width:170px;"><?=$data['goods_nm']?></td>
-      <td style="width:60px;"><?=$data['color']?></td>
-      <td style="width:60px;"><?=$data['size']?></td>
-      <td style="width:60px;"><?=$data['price'].'원'?></td>
+    <tr style='text-align:center;' id="input_data">
+      <th style='text-align:center; width:50px;'><?=$data['idx']?></th>
+      <td style='width:100px;'><?=$data['category']?></td>
+      <td style='width:170px;'><?=$data['goods_nm']?></td>
+      <td style='width:60px;'><?=$data['color']?></td>
+      <td style='width:60px;'><?=$data['size']?></td>
+      <td style='width:60px;'><?=$data['price'].'원'?></td>
       <td><?=$data['rt']?></td>
       <td><?=$data['ut']?></td>
     </tr>
@@ -68,9 +70,6 @@
   </tbody>
 </table>
 
-<div style="text-align:center;padding-top:30px;">
-  <input type="button" class="btn btn-primary" id="reg_btn" name="reg_btn" value="등록" onclick="open_popup();" >
-</div>
    
 <script>
     function open_popup() {
@@ -78,19 +77,38 @@
     }
 </script>
 
+
 <script>
-  $(document).ready(function(){
-    $('#reg_btn').click(function(){
-      
-      $.ajax({
-        url:"reg_popup.php",
-        type: "post",
-        data: $("form").serialize(),
-      }).done(function(data){
-        $("#input_data").html(data);
-      });
-    });
-  });
+$('#select_btn').click(function(){
+		
+    $.ajax({
+    url: "goods_action.php",
+        type: "post",		
+       data: $("form").serialize(),
+       dataType:"json",
+  }).done(function(data){
+    var html = "";
+    for(var i = 0; i<data.seq.length; i++){
+      html += "<tr>";
+      html += "<td>Json - "+data.seq[i]+"</td>";
+      html += "<td>"+data.name[i]+"</td>";
+      html += "<td>"+data.age[i]+"</td>";
+      html += "<td>"+data.email[i]+"</td>";
+      html += "</tr>";
+    }
+
+    $("#input_data").html(html);
+   }); 
+        
+});
+
+//tbody 안에 있는 내용  지우기
+$('#no3').click(function(){
+    $("#input_data").empty();
+});
+
 </script>
+
+
 </body>
 </html>
