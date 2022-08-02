@@ -127,17 +127,18 @@ function AjaxCall(method) {
         dataType:"json",
         success : function(data, status, xhr) {
             console.log(data);
+            window.close();
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log(jqXHR.responseText);
         }
     });
 }
+</script>
 
 
-
-
-
+<script>
+  
 
 </script>
 

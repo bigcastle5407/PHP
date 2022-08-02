@@ -3,8 +3,8 @@
   
   $conn = mysqli_connect('localhost','root','qwe123','goods');
   $sql = "select * 
-  from goods 
-  order by idx desc limit 0,50";
+          from goods 
+          order by idx desc limit 0,50";
   $result = mysqli_query($conn, $sql);
   $table = $result -> fetch_array(MYSQLI_ASSOC);
   
@@ -57,7 +57,7 @@
     <tr style='text-align:center;' id="input_data">
       <th style='text-align:center; width:50px;'><?=$data['idx']?></th>
       <td style='width:100px;'><?=$data['category']?></td>
-      <td style='width:170px;'><?=$data['goods_nm']?></td>
+      <td style='width:170px;'><a href="goods_notice/goods.php?idx=<?=$data['idx']?>"><?=$data['goods_nm']?></a></td>
       <td style='width:60px;'><?=$data['color']?></td>
       <td style='width:60px;'><?=$data['size']?></td>
       <td style='width:60px;'><?=$data['price'].'원'?></td>

@@ -1,7 +1,7 @@
 <?php
 
 
-require_once './calendar/main.php';
+require_once './goods_notice/main.php';
 exit;
 
 use Illuminate\Contracts\Http\Kernel;
