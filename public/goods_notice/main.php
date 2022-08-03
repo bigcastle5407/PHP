@@ -27,11 +27,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="goods_notice/resource/js/bootstrap.js"></script>
   </head>
-  <body style="width:90%; margin:auto;">
+  <body style="width:90%; margin:auto;" id="body">
     <h1 style="text-align:center; border-bottom:1px gray solid; padding-bottom:30px;">상품 관리</h1>
     <div style="text-align:right;padding-top:30px;">
       <input type="button" class="btn btn-primary" id="reg_btn" name="reg_btn" value="등록" onclick="open_popup();" >&nbsp;&nbsp;&nbsp;
-      <input type="button" class="btn btn-primary" id="select_btn" name="select_btn" value="조회" >
+      <button class="btn btn-danger" onclick="changeColor();">다크모드</button>
     </div><br>
 <table class="table table-striped" style="width:1500px; margin:auto;">
   <thead>
@@ -57,7 +57,7 @@
     <tr style='text-align:center;' id="input_data">
       <th style='text-align:center; width:50px;'><?=$data['idx']?></th>
       <td style='width:100px;'><?=$data['category']?></td>
-      <td style='width:170px;'><a href="goods_notice/goods.php?idx=<?=$data['idx']?>"><?=$data['goods_nm']?></a></td>
+      <td style='width:170px;'><a href="goods_notice/modify.php?idx=<?=$data['idx']?>" onclick="window.open(this.href,'register page','left=600, top=500, width=700, height=900, scrollbars=no, resizeable=no');return false"><?=$data['goods_nm']?></a></td>
       <td style='width:60px;'><?=$data['color']?></td>
       <td style='width:60px;'><?=$data['size']?></td>
       <td style='width:60px;'><?=$data['price'].'원'?></td>
@@ -78,70 +78,30 @@
 </script>
 
 
-<!-- <script>
-$('#select_btn').click(function(){
-		
-    $.ajax({
-    url: "goods_action.php",
-        type: "post",		
-       data: $("form").serialize(),
-       dataType:"json",
-  }).done(function(data){
-    var html = "";
-    for(var i = 0; i<data.seq.length; i++){
-      html += "<tr>";
-      html += "<td>Json - "+data.seq[i]+"</td>";
-      html += "<td>"+data.name[i]+"</td>";
-      html += "<td>"+data.age[i]+"</td>";
-      html += "<td>"+data.email[i]+"</td>";
-      html += "</tr>";
+<script>
+  var color = ["white", "black"];
+  var textColor = ["black", "white"];
+
+  var i = 0;
+  var j = 0;
+
+  function changeColor(){
+    i++;
+    j++;
+    if(i>=color.length){
+      i = 0;
     }
+    if(j>=textColor.length){
+      j = 0;
+    }
+    
+    var bodyTag = document.getElementById("body");
+    bodyTag.style.backgroundColor = color[i];
+    document.querySelector('body').style.color=textColor[j];
+  }
 
-    $("#input_data").html(html);
-   }); 
-        
-});
+</script>
 
-//tbody 안에 있는 내용  지우기
-$('#no3').click(function(){
-    $("#input_data").empty();
-});
-
-</script> -->
-
-<!-- <script>
-    $(document).ready(function() {
-	$.ajax({
-		url: "main.php",
-		type: "GET",
-		cache: false,
-		success: function(dataResult){
-			$('.table').html(dataResult); 
-		}
-	});
-	$(document).on("click", "#select_btn", function() { 
-		var $ele = $(this).parent().parent();
-		$.ajax({
-			url: "delete.php?<?=$idx?>",
-			type: "GET",
-			cache: false,
-			data:{
-				id: $(this).attr("data-id")
-			},
-			success: function(dataResult){
-				var dataResult = JSON.parse(dataResult);
-				if(dataResult.statusCode==200){
-					$ele.fadeOut().remove();
-				}
-			}
-		});
-	});
-});
-
-
-
-
-</script> -->
 
 
 </body>

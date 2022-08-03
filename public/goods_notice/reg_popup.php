@@ -38,8 +38,7 @@
   <div class="form-group row">
     <label for="color" class="col-sm-2 col-form-label"><h3>색상</h3></label>
     <div class="container">
-	<select class="form-control" name="color" id="color">
-	  <option>색상을 선택하세요</option>
+	<select class="form-control" name="color" id="color" multiple="multiple">
 	  <option value="red">red</option>
 	  <option value="black">black</option>
 	  <option value="green">green</option>
@@ -138,7 +137,15 @@ function AjaxCall(method) {
 
 
 <script>
-  
+ var multiSel = AjaxForm.color.value;
+ if (multiSel.length > 0){
+    var arrSel = multiSel.split(',');
+
+    for (i=0; i<arrSel.length; i++){
+      AjaxForm.color[arrSel[i]].selected = true;
+    }
+}
+
 
 </script>
 

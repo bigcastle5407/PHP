@@ -69,11 +69,16 @@
 
 </table>
 <div class="col-sm-10" style="text-align:center; width:100%;">
-  <input type="button" value="수정" class="btn btn-success" id="mod_btn" onclick="AjaxCall('POST');">
+  <input type="button" value="수정" class="btn btn-success" id="mod_btn" onclick="open_popup2();">
   <input type="button" value="삭제" class="btn btn-danger" id="del_btn">
   <a href="delete.php?idx=<?=$idx?>">삭제</a>
-  <button class="btn btn-warning" onclick="window.close()">취소</button>
+  <button class="btn btn-warning" onclick="history.back()">취소</button>
 </div>
 
+<script>
+    function open_popup2() {
+        window.open('modify.php','modify page','left=600, top=500, width=700, height=900, scrollbars=no, resizeable=no');
+    }
+</script>
 </body>
 </html>

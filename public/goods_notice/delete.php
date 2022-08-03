@@ -6,15 +6,17 @@ $conn = mysqli_connect('localhost','root','qwe123','goods');
 $sql = "delete from
         goods
         where idx={$idx}";
-$sql2 = "alter table goods auto_increment=1";
+$sql2 = "SET @count=0;";
+$sql3 = "update goods set idx=@count:=@count+1";
+$sql4 = "alter table goods auto_increment=1";
+mysqli_query($conn,$sql);
 mysqli_query($conn,$sql2);
-if(mysqli_query($conn,$sql)){
+mysqli_query($conn,$sql3);
+mysqli_query($conn,$sql4);
+
    
     header('Location:/');
 
-}else{
-    echo json_encode(array("statusCode"=>201));
-}
 mysqli_close($conn);
 
 
