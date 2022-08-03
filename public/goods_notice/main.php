@@ -1,5 +1,5 @@
 <?php
-  require_once('goods_notice/db/db.php');
+  // require_once('goods_notice/db/db.php');
   
   $conn = mysqli_connect('localhost','root','qwe123','goods');
   $sql = "select * 
@@ -78,7 +78,7 @@
 </script>
 
 
-<script>
+<!-- <script>
 $('#select_btn').click(function(){
 		
     $.ajax({
@@ -107,7 +107,41 @@ $('#no3').click(function(){
     $("#input_data").empty();
 });
 
-</script>
+</script> -->
+
+<!-- <script>
+    $(document).ready(function() {
+	$.ajax({
+		url: "main.php",
+		type: "GET",
+		cache: false,
+		success: function(dataResult){
+			$('.table').html(dataResult); 
+		}
+	});
+	$(document).on("click", "#select_btn", function() { 
+		var $ele = $(this).parent().parent();
+		$.ajax({
+			url: "delete.php?<?=$idx?>",
+			type: "GET",
+			cache: false,
+			data:{
+				id: $(this).attr("data-id")
+			},
+			success: function(dataResult){
+				var dataResult = JSON.parse(dataResult);
+				if(dataResult.statusCode==200){
+					$ele.fadeOut().remove();
+				}
+			}
+		});
+	});
+});
+
+
+
+
+</script> -->
 
 
 </body>

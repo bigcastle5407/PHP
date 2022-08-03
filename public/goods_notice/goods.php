@@ -71,43 +71,9 @@
 <div class="col-sm-10" style="text-align:center; width:100%;">
   <input type="button" value="수정" class="btn btn-success" id="mod_btn" onclick="AjaxCall('POST');">
   <input type="button" value="삭제" class="btn btn-danger" id="del_btn">
+  <a href="delete.php?idx=<?=$idx?>">삭제</a>
   <button class="btn btn-warning" onclick="window.close()">취소</button>
 </div>
-
-<script>
-    $(document).ready(function() {
-	$.ajax({
-		url: "View_ajax.php",
-		type: "POST",
-		cache: false,
-		success: function(dataResult){
-			$('#table').html(dataResult); 
-		}
-	});
-	$(document).on("click", "#del_btn", function() { 
-		var $ele = $(this).parent().parent();
-		$.ajax({
-			url: "delete.php",
-			type: "POST",
-			cache: false,
-			data:{
-				id: $(this).attr("data-id")
-			},
-			success: function(dataResult){
-				var dataResult = JSON.parse(dataResult);
-				if(dataResult.statusCode==200){
-					$ele.fadeOut().remove();
-				}
-			}
-		});
-	});
-});
-
-
-
-
-</script>
-
 
 </body>
 </html>
