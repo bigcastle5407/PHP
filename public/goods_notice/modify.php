@@ -33,9 +33,9 @@
 
 <form id="AjaxForm2" name="AjaxForm2">
   <div class="form-group row">
-    <label for="price" class="col-sm-2 col-form-label"><h3>번호</h3></label>
+    
     <div class="col-sm-10">
-     <input type="text" class="form-control" id="idx" name="idx" value="<?=$row['idx']?>" disabled> 
+     <input type="hidden" class="form-control" id="idx" name="idx" value="<?=$row['idx']?>"> 
     </div>
   </div>
   <div class="form-group row">

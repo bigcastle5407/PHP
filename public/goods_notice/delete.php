@@ -15,7 +15,9 @@ mysqli_query($conn,$sql3);
 mysqli_query($conn,$sql4);
 
    
-    header('Location:/');
+   echo "<script>
+            window.close();
+        <script>";
 
 mysqli_close($conn);
 

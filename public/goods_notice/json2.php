@@ -4,6 +4,7 @@ require_once('./db/db.php');
 header("Content-Type: application/json");
 
 $method = $_SERVER['REQUEST_METHOD'];
+$idx = "";
 $category = "";
 $goods_nm = "";
 $color = "";
@@ -17,7 +18,7 @@ $password = "qwe123";
 $dbname = "goods";
 
 if($method == "POST") {
-    $idx = $_GET['idx'];
+    $idx = $_POST['idx'];
     $category = $_POST['category'];
     $goods_nm = $_POST['goods_nm'];
     $color = $_POST['color'];
@@ -29,7 +30,7 @@ if($method == "POST") {
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "update goods
-                set category='$category', goods_nm='$goods_nm', color='$color', size='$size',price='$price',ut='now()'
+                set category='$category', goods_nm='$goods_nm', color='$color', size='$size', price='$price', ut=now()
                 where idx = {$idx}";
         $conn->exec($sql);
        

@@ -1,13 +1,33 @@
 <?php
-  // require_once('goods_notice/db/db.php');
-  
+  $list_num = 4;
+  $page_num = 8;
+  $page = isset($_GET["page"])? $_GET["page"] : 1;
+  $total_page = ceil($page_num / $list_num);
+  $total_block = ceil($total_page / $page_num);
+  $now_block = ceil($page / $page_num);
+  $s_pageNum = ($now_block - 1) * $page_num + 1;
+
+  if($s_pageNum <= 0){
+      $s_pageNum = 1;
+  };
+
+  $e_pageNum = $now_block * $page_num;
+
+  if($e_pageNum > $total_page){
+      $e_pageNum = $total_page;
+  };
+
+  $start = ($page - 1) * $list_num;
   $conn = mysqli_connect('localhost','root','qwe123','goods');
-  $sql = "select * 
-          from goods 
-          order by idx desc limit 0,50";
+  $sql = "
+      select * 
+      from goods 
+      limit $start, $list_num;
+          ";
   $result = mysqli_query($conn, $sql);
   $table = $result -> fetch_array(MYSQLI_ASSOC);
-  
+  $cnt = $start + 1;
+
   $idx = $table['idx'];
   $category = $table['category'];
   $goods_nm = $table['goods_nm'];
@@ -15,7 +35,11 @@
   $size = $table['size'];
   $rt = $table['rt'];
   $ut = $table['ut'];
-  ?>
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -50,7 +74,7 @@
     <?php
       while($data = mysqli_fetch_array($result)){
         $goods_nm = $data['goods_nm'];
-        if(strlen($goods_nm)>50){
+        if(strlen($goods_nm)>60){
           $goods_nm=str_replace($data['goods_nm'],mb_substr($data['goods_nm'],0,30,"utf-8")."...",$data['goods_nm']);
         }
     ?>
@@ -65,10 +89,40 @@
       <td><?=$data['ut']?></td>
     </tr>
     <?php
+      $cnt++;
+
       }
     ?>
-  </tbody>
+</tbody>
+
+
+
 </table>
+<p class="pager">
+
+    <?php
+      if($page <= 1){
+    ?>
+      <a href="main.php?page=1">이전</a>
+    <?php } else{ ?>
+    <a href="main.php?page=<?php echo ($page-1); ?>">이전</a>
+    <?php };?>
+
+    <?php
+      for($print_page = $s_pageNum; $print_page <= $e_pageNum; $print_page++){
+    ?>
+      <a href="main.php?page=<?php echo $print_page; ?>"><?php echo $print_page; ?></a>
+    <?php };?>
+
+    <?php
+      if($page >= $total_page){
+    ?>
+      <a href="main.php?page=<?php echo $total_page; ?>">다음</a>
+    <?php } else{ ?>
+      <a href="main.php?page=<?php echo ($page+1); ?>">다음</a>
+    <?php };?>
+
+    </p>
 
    
 <script>
