@@ -99,11 +99,12 @@ $last_week = date('w', mktime(0, 0, 0, $month, $max_day, $year));
                 echo '<font class='.$style.'>';
                 echo $day;
                 echo '</font>';
-            } else {
-                echo '<font class='.$style.'>';
-                echo $day;
-                echo '</font>';
             }
+            // } else {
+            //     echo '<font class='.$style.'>';
+            //     echo $day;
+            //     echo '</font>';
+            // }
             //날짜 증가
             $day++;
         }

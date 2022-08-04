@@ -9,7 +9,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="resource/js/bootstrap.js"></script>
     <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
 </head>
 <body style="margin-left:30px; margin-right:30px; margin-top:30px;">
@@ -137,15 +136,7 @@ function AjaxCall(method) {
 
 
 <script>
- var multiSel = AjaxForm.color.value;
- if (multiSel.length > 0){
-    var arrSel = multiSel.split(',');
-
-    for (i=0; i<arrSel.length; i++){
-      AjaxForm.color[arrSel[i]].selected = true;
-    }
-}
-
+ $('#color').val();
 
 </script>
 

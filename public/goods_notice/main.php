@@ -1,8 +1,19 @@
 <?php
-  $list_num = 4;
-  $page_num = 8;
-  $page = isset($_GET["page"])? $_GET["page"] : 1;
-  $total_page = ceil($page_num / $list_num);
+  $db_conn = mysqli_connect('localhost','root','qwe123','goods');
+  $selSql = "
+      select count(*)
+      from goods
+          ";
+  $selRes  = mysqli_query($db_conn, $selSql);
+  $selRow  = mysqli_fetch_array($selRes);
+  $num = $selRow[0];
+
+  echo $num;
+
+  $list_num = 3;
+  $page_num = 5;
+  $page = isset($_GET["page"]) ? $_GET["page"] : 1;
+  $total_page = ceil($num / $list_num);
   $total_block = ceil($total_page / $page_num);
   $now_block = ceil($page / $page_num);
   $s_pageNum = ($now_block - 1) * $page_num + 1;
@@ -19,10 +30,11 @@
 
   $start = ($page - 1) * $list_num;
   $conn = mysqli_connect('localhost','root','qwe123','goods');
+  
   $sql = "
       select * 
       from goods 
-      limit $start, $list_num;
+      order by idx desc limit $start, $list_num;
           ";
   $result = mysqli_query($conn, $sql);
   $table = $result -> fetch_array(MYSQLI_ASSOC);
@@ -55,6 +67,11 @@
     <h1 style="text-align:center; border-bottom:1px gray solid; padding-bottom:30px;">상품 관리</h1>
     <div style="text-align:right;padding-top:30px;">
       <input type="button" class="btn btn-primary" id="reg_btn" name="reg_btn" value="등록" onclick="open_popup();" >&nbsp;&nbsp;&nbsp;
+      <select class="form-control" style="width:auto;display:inline-block;" id="sort" name="sort">
+        <option>==정렬==</option>
+        <option value="1">상품이름순</option>
+        <option value="2">상품등록순</option>
+      </select>
       <button class="btn btn-danger" onclick="changeColor();">다크모드</button>
     </div><br>
 <table class="table table-striped" style="width:1500px; margin:auto;">
@@ -73,13 +90,9 @@
   <tbody>
     <?php
       while($data = mysqli_fetch_array($result)){
-        $goods_nm = $data['goods_nm'];
-        if(strlen($goods_nm)>60){
-          $goods_nm=str_replace($data['goods_nm'],mb_substr($data['goods_nm'],0,30,"utf-8")."...",$data['goods_nm']);
-        }
     ?>
-    <tr style='text-align:center;' id="input_data">
-      <th style='text-align:center; width:50px;'><?=$data['idx']?></th>
+    <tr style='text-align:center;'>
+      <td style='text-align:center; width:50px;'><?=$data['idx']?></td>
       <td style='width:100px;'><?=$data['category']?></td>
       <td style='width:170px;'><a href="goods_notice/modify.php?idx=<?=$data['idx']?>" onclick="window.open(this.href,'register page','left=600, top=500, width=700, height=900, scrollbars=no, resizeable=no');return false"><?=$data['goods_nm']?></a></td>
       <td style='width:60px;'><?=$data['color']?></td>
@@ -98,6 +111,7 @@
 
 
 </table>
+<!-- 페이징 -->
 <p class="pager">
 
     <?php
@@ -131,7 +145,7 @@
     }
 </script>
 
-
+<!-- 다크모드 -->
 <script>
   var color = ["white", "black"];
   var textColor = ["black", "white"];
@@ -156,7 +170,22 @@
 
 </script>
 
+<!-- 셀렉트박스 정렬 -->
+<script>
+$(function() {
 
+    $("#sort").change(function() {
+
+        var v = $("#sort").val();
+
+       alert("셀렉트값 : "+v);
+      <?php
+      ?>
+    });
+
+});
+
+</script>
 
 </body>
 </html>

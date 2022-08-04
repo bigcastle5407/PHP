@@ -31,9 +31,9 @@ if($method == "POST") {
                 values(null,'$category', '$goods_nm', '$color', '$size', '$price',now())";
         $conn->exec($sql);
        
-        } catch(PDOException $e) {
+    } catch(PDOException $e) {
         echo $sql . "<br>" . $e->getMessage();
-        }
+    }
         
         $conn = null;
 
@@ -52,9 +52,9 @@ if($method == "POST") {
                 values(null,'$category', '$goods_nm', '$color', '$size', '$price',now())";
         $conn->exec($sql);
        
-        } catch(PDOException $e) {
+    } catch(PDOException $e) {
         echo $sql . "<br>" . $e->getMessage();
-        }
+    }
         
         $conn = null;
 } 

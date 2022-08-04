@@ -41,56 +41,14 @@
   <div class="form-group row">
     <label for="category" class="col-sm-2 col-form-label"><h3>카테고리</h3></label>
     <div class="col-sm-10">
-        <?php
-        if($row['category']=='top'){
-            echo "
-            <input type='radio' id='category1' name='category' value='top' checked>
-            <label class='form-check-label' for='category1'>상의</label>&nbsp;&nbsp;
-            <input type='radio' id='category2' name='category' value='bottom'>
-            <label class='form-check-label' for='category2'>하의</label>&nbsp;&nbsp;
-            <input type='radio' id='category3' name='category' value='shoes'>
-            <label class='form-check-label' for='category3'>신발</label>&nbsp;&nbsp;
-            <input type='radio' id='category4' name='category' value='accesary'>
-            <label class='form-check-label' for='category4'>악세사리</label>&nbsp;&nbsp;
-            ";
-        }elseif($row['category']=='bottom'){
-            echo "
-            <input type='radio' id='category1' name='category' value='top'>
-            <label class='form-check-label' for='category1'>상의</label>&nbsp;&nbsp;
-            <input type='radio' id='category2' name='category' value='bottom' checked>
-            <label class='form-check-label' for='category2'>하의</label>&nbsp;&nbsp;
-            <input type='radio' id='category3' name='category' value='shoes'>
-            <label class='form-check-label' for='category3'>신발</label>&nbsp;&nbsp;
-            <input type='radio' id='category4' name='category' value='accesary'>
-            <label class='form-check-label' for='category4'>악세사리</label>&nbsp;&nbsp;
-            ";
-
-        }elseif($row['category']=='shoes'){
-            echo "
-            <input type='radio' id='category1' name='category' value='top'>
-            <label class='form-check-label' for='category1'>상의</label>&nbsp;&nbsp;
-            <input type='radio' id='category2' name='category' value='bottom'>
-            <label class='form-check-label' for='category2'>하의</label>&nbsp;&nbsp;
-            <input type='radio' id='category3' name='category' value='shoes' checked>
-            <label class='form-check-label' for='category3'>신발</label>&nbsp;&nbsp;
-            <input type='radio' id='category4' name='category' value='accesary'>
-            <label class='form-check-label' for='category4'>악세사리</label>&nbsp;&nbsp;
-            ";
-
-        }elseif($row['category']=='accesary'){
-            echo "
-            <input type='radio' id='category1' name='category' value='top'>
-            <label class='form-check-label' for='category1'>상의</label>&nbsp;&nbsp;
-            <input type='radio' id='category2' name='category' value='bottom'>
-            <label class='form-check-label' for='category2'>하의</label>&nbsp;&nbsp;
-            <input type='radio' id='category3' name='category' value='shoes'>
-            <label class='form-check-label' for='category3'>신발</label>&nbsp;&nbsp;
-            <input type='radio' id='category4' name='category' value='accesary' checked>
-            <label class='form-check-label' for='category4'>악세사리</label>&nbsp;&nbsp;
-            ";
-
-        }
-        ?>
+      <input type='radio' id='category1' name='category' value='top' <?php if($row['category'] == 'top') echo 'checked'?>>
+      <label class='form-check-label' for='category1'>상의</label>&nbsp;&nbsp;
+      <input type='radio' id='category2' name='category' value='bottom' <?php if($row['category'] == 'bottom') echo 'checked'?>>
+      <label class='form-check-label' for='category2'>하의</label>&nbsp;&nbsp;
+      <input type='radio' id='category3' name='category' value='shoes' <?php if($row['category'] == 'shoes') echo 'checked'?>>
+      <label class='form-check-label' for='category3'>신발</label>&nbsp;&nbsp;
+      <input type='radio' id='category4' name='category' value='accesary'<?php if($row['category'] == 'accesary') echo 'checked'?>>
+      <label class='form-check-label' for='category4'>악세사리</label>&nbsp;&nbsp;
     </div>
   </div>
   <div class="form-group row">
@@ -103,16 +61,16 @@
     <label for="color" class="col-sm-2 col-form-label"><h3>색상</h3></label>
     <div class="container">
 	<select class="form-control" name="color" id="color" multiple="multiple">
-	  <option value="red">red</option>
-	  <option value="black">black</option>
-	  <option value="green">green</option>
-	  <option value="blue">blue</option>
-	  <option value="green">gray</option>
-	  <option value="yellow">yellow</option>
-	  <option value="purple">purple</option>
-	  <option value="white">white</option>
-	  <option value="sky blue">sky blue</option>
-	  <option value="dark gray">dark gray</option>
+	  <option value="red" <?php if($row['size'] == 'red') echo 'selected'?>>red</option>
+	  <option value="black" <?php if($row['size'] == 'black') echo 'selected'?>>black</option>
+	  <option value="pink" <?php if($row['size'] == 'pink') echo 'selected'?>>green</option>
+	  <option value="blue" <?php if($row['size'] == 'blue') echo 'selected'?>>blue</option>
+	  <option value="green" <?php if($row['size'] == 'green') echo 'selected'?>>gray</option>
+	  <option value="yellow" <?php if($row['size'] == 'yellow') echo 'selected'?>>yellow</option>
+	  <option value="purple" <?php if($row['size'] == 'purple') echo 'selected'?>>purple</option>
+	  <option value="white" <?php if($row['size'] == 'white') echo 'selected'?>>white</option>
+	  <option value="sky blue" <?php if($row['size'] == 'sky blue') echo 'selected'?>>sky blue</option>
+	  <option value="dark gray" <?php if($row['size'] == 'dark gray') echo 'selected'?>>dark gray</option>
 	</select>
     </div>
     
@@ -121,59 +79,12 @@
     <label for="size" class="col-sm-2 col-form-label"><h3>사이즈</h3></label>
     <div class="container">
       <select class="form-control" name="size" id="size" >
-        <?php
-            if($row['size']=="XL"){
-                echo "
-                <option>사이즈를 선택하세요</option>
-                <option value='XL' selected>XL</option>
-                <option value='L'>L</option>
-                <option value='M'>M</option>
-                <option value='S'>S</option>
-                <option value='XS'>XS</option>
-                ";
-            }elseif($row['size']=="L"){
-                echo "
-                <option>사이즈를 선택하세요</option>
-                <option value='XL'>XL</option>
-                <option value='L' selected>L</option>
-                <option value='M'>M</option>
-                <option value='S'>S</option>
-                <option value='XS'>XS</option>
-                ";
-
-            }elseif($row['size']=="M"){
-                echo "
-                <option>사이즈를 선택하세요</option>
-                <option value='XL'>XL</option>
-                <option value='L'>L</option>
-                <option value='M' selected>M</option>
-                <option value='S'>S</option>
-                <option value='XS'>XS</option>
-                ";
-
-            }elseif($row['size']=="S"){
-                echo "
-                <option>사이즈를 선택하세요</option>
-                <option value='XL'>XL</option>
-                <option value='L'>L</option>
-                <option value='M'>M</option>
-                <option value='S' selected>S</option>
-                <option value='XS'>XS</option>
-                ";
-
-            }else{
-                echo "
-                <option>사이즈를 선택하세요</option>
-                <option value='XL'>XL</option>
-                <option value='L'>L</option>
-                <option value='M'>M</option>
-                <option value='S'>S</option>
-                <option value='XS' selected>XS</option>
-                ";
-
-            }
-
-        ?>
+          <option>사이즈를 선택하세요</option>
+          <option value='XL' <?php if($row['size'] == 'XL') echo 'selected'?>>XL</option>
+          <option value='L'<?php if($row['size'] == 'L') echo 'selected'?>>L</option>
+          <option value='M'<?php if($row['size'] == 'M') echo 'selected'?>>M</option>
+          <option value='S'<?php if($row['size'] == 'S') echo 'selected'?>>S</option>
+          <option value='XS'<?php if($row['size'] == 'XS') echo 'selected'?>>XS</option>
       </select>
     </div>
   </div>
@@ -250,6 +161,18 @@ function AjaxCall2(method) {
         }
     });
 }
+
+$(function(){
+  $('#mod_btn').click(function(){
+    if(!confirm('수정하시겠습니까?')){
+      return false;
+    }else{
+      window.close();
+      location.reload();
+    }
+
+  })
+});
 </script>
 
 <!-- 삭제 Ajax -->
@@ -266,18 +189,28 @@ function createData3(){
 function AjaxCall3(method) {
     $.ajax({
         type: method,
-        url : "delete.php?idx=<?=$idx?>",
+        url : "delete.php?mode=" + method,
         data: createData3(),
         dataType:"json",
         success : function(data, status, xhr) {
             console.log(data);
-            window.close();
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log(jqXHR.responseText);
         }
     });
 }
+
+$(function(){
+  $('#del_btn').click(function(){
+    if(!confirm('정말 삭제하시겠습니까?')){
+      return false;
+    }else{
+      window.close();
+    }
+
+  })
+});
 </script>
 
 

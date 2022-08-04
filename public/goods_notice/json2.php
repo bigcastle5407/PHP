@@ -34,9 +34,9 @@ if($method == "POST") {
                 where idx = {$idx}";
         $conn->exec($sql);
        
-        } catch(PDOException $e) {
+     } catch(PDOException $e) {
         echo $sql . "<br>" . $e->getMessage();
-        }
+     }
         
         $conn = null;
 
@@ -57,9 +57,9 @@ if($method == "POST") {
                 where idx = {$idx}";
         $conn->exec($sql);
        
-        } catch(PDOException $e) {
+    } catch(PDOException $e) {
         echo $sql . "<br>" . $e->getMessage();
-        }
+    }
         
         $conn = null;
 } 
