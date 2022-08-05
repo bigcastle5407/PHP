@@ -9,6 +9,7 @@
   $num = $selRow[0];
 
   echo $num;
+  
 
   $list_num = 5;
   $page_num = 5;
@@ -46,13 +47,11 @@
   if(isset($_GET['search'])){
     $sel = $_GET['kind'];
     $search = $_GET['search'];
-    echo "<script> console.log('$search')</script>";
     $search_conn = mysqli_connect('localhost','root','qwe123','goods');
     $search_sql="
               select * 
               from goods
               where goods_nm like '%$search%' order by id desc limit $start, $list_num";
-    echo $search_sql;
   $search_result=mysqli_query($search_conn, $search_sql);
   $search_sql2="
               select count(*) 
@@ -62,7 +61,7 @@
 
   $result_count=mysqli_query($search_conn,$search_sql2);
 
-  }
+}
 ?>
 
 <!DOCTYPE html>
@@ -75,6 +74,7 @@
     <link rel="stylesheet" href="goods_notice/resource/css/bootstrap.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="goods_notice/resource/js/bootstrap.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
   </head>
   <body style="width:90%; margin:auto;" id="body">
     <h1 style="text-align:center; border-bottom:1px gray solid; padding-bottom:30px;">상품 관리</h1>
@@ -89,6 +89,7 @@
       <input type=button name=byn1 onclick="search1()" value="찾기">
       </form>
     </div>
+    <form method="POST" action="delete2.php">
     <div style="text-align:right;padding-top:30px;">
       <input type="button" class="btn btn-primary" id="reg_btn" name="reg_btn" value="등록" onclick="open_popup();" >&nbsp;&nbsp;&nbsp;
       <input type="submit" class="btn btn-danger" id="del_btn2" name="del_btn2" value="삭제" >&nbsp;&nbsp;&nbsp;
@@ -109,7 +110,7 @@
   <thead>
     <tr>
       <th style="text-align:center;">NO</th>
-      <th style="text-align:center;"><input type="checkbox" name="check[]" id="selectAll" value="전체선택"></th>
+      <th style="text-align:center;"><input type="checkbox" name="chkAll[]" id="cbx_chkAll" value="전체선택"></th>
       <th style="text-align:center;">카테고리</th>
       <th style="text-align:center;">상품명</th>
       <th style="text-align:center;">색상</th>
@@ -125,7 +126,7 @@
     ?>
     <tr style='text-align:center;'>
       <td style='text-align:center; width:50px;'><?=$data['idx']?></td>
-      <td style='text-align:center; width:50px;'><input type="checkbox" id="ck_box" name="check[]" value="<?=$data['idx']?>"></td>
+      <td style='text-align:center; width:50px;'><input type="checkbox" name="chk[]" value="<?=$data['idx']?>"></td>
       <td style='width:100px;'><?=$data['category']?></td>
       <td style='width:170px;'><a href="goods_notice/modify.php?idx=<?=$data['idx']?>" onclick="window.open(this.href,'register page','left=600, top=500, width=700, height=900, scrollbars=no, resizeable=no');return false"><?=$data['goods_nm']?></a></td>
       <td style='width:60px;'><?=$data['color']?></td>
@@ -170,7 +171,7 @@
     <?php };?>
 
     </p>
-
+    </form>
    
 <script>
     function open_popup() {
@@ -233,7 +234,6 @@ $(function() {
 $(function(){
   $('#show').change(function(){
     var count = $('#show').val();
-   
     var count1 = parseInt(count,10);
     alert(count1);
   
@@ -252,8 +252,22 @@ $(function(){
   }
 </script>
 
+<!-- 체크박스 전체선택 -->
 <script>
+ $(document).ready(function() {
+	$("#cbx_chkAll").click(function() {
+		if($("#cbx_chkAll").is(":checked")) $("input[name=chk]").prop("checked", true);
+		else $("input[name=chk]").prop("checked", false);
+	});
 
+	$("input[name=chk]").click(function() {
+		var total = $("input[name=chk]").length;
+		var checked = $("input[name=chk]:checked").length;
+
+		if(total != checked) $("#cbx_chkAll").prop("checked", false);
+		else $("#cbx_chkAll").prop("checked", true); 
+	});
+});
 </script>
 
 <script>
