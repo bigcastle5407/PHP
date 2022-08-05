@@ -84,7 +84,7 @@ $last_week = date('w', mktime(0, 0, 0, $month, $max_day, $year));
     <?php
     //총 가로칸 만들기
     for ($j = 0; $j < 7; $j++) {
-        echo '<td height="50" valign="top">';
+        echo '<td style="height:80px;test-align:center;">';
         if (!(($i == 1 && $j < $start_week) || ($i == $total_week && $j > $last_week))) {
 
             if ($j == 0) {
@@ -99,12 +99,12 @@ $last_week = date('w', mktime(0, 0, 0, $month, $max_day, $year));
                 echo '<font class='.$style.'>';
                 echo $day;
                 echo '</font>';
+            
+            } else {
+                echo '<font class='.$style.'>';
+                echo $day;
+                echo '</font>';
             }
-            // } else {
-            //     echo '<font class='.$style.'>';
-            //     echo $day;
-            //     echo '</font>';
-            // }
             //날짜 증가
             $day++;
         }

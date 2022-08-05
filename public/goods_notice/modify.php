@@ -168,9 +168,9 @@ $(function(){
       return false;
     }else{
       window.close();
-      location.reload();
+      
     }
-
+   
   })
 });
 </script>
