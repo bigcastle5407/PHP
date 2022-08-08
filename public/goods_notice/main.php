@@ -11,15 +11,22 @@
 
   // echo $num;
 
+  $query_string = $_SERVER["QUERY_STRING"];
 
-      $list_num = 5;
-      $page_num = 5;
-      $page = isset($_GET["page"]) ? $_GET["page"] : 1;
-      $total_page = ceil($num / $list_num);
-      $total_block = ceil($total_page / $page_num);
-      $now_block = ceil($page / $page_num);
-      $s_pageNum = ($now_block - 1) * $page_num + 1;
-    
+  // echo  $query_string;
+
+  $show = $_GET['show'];
+
+  // echo $show;
+
+  $list_num = $show;
+  $page_num = 5;
+  $page = isset($_GET["page"]) ? $_GET["page"] : 1;
+  $total_page = ceil($num / $list_num);
+  $total_block = ceil($total_page / $page_num);
+  $now_block = ceil($page / $page_num);
+  $s_pageNum = ($now_block - 1) * $page_num + 1;
+
   
 
 
@@ -176,7 +183,8 @@ $kind = $_GET['kind'];
     <?php
       for($print_page = $s_pageNum; $print_page <= $e_pageNum; $print_page++){
     ?>
-      <a href="main.php?page=<?php echo $print_page; ?>"><?php echo $print_page; ?></a>
+  
+      <a href="main.php?page=<?php echo $print_page;?>"><?php echo $print_page; ?></a>
     <?php };?>
 
     <?php
@@ -315,20 +323,21 @@ function historyDel(){
   $(document).ready(function(){
     $("select[name='show']").change(function(){
         var sel = $(this).val();
+        console.log(sel);
+        
+        var url = location.pathname + "?page=" + <?php echo $page;?> + "&show="+sel;
 
-        $.ajax({
-          url  : "show.php",
-          type : "GET",
-          data : sel,
-          success : function(data, status, xhr) {
-            console.log(data);
-            console.log(status);
-            console.log(xhr);
-          },
-          error: function(jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR.responseText);
-          }
-        });
+        location.href = url;
+
+        console.log(url);
+
+
+
+
+
+
+
+       
     });
   });
 

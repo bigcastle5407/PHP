@@ -23,9 +23,6 @@ if ($month == 1) {
 $preyear = $year - 1;
 $nextyear = $year + 1;
 
-$predate = date("Y-m-d", mktime(0, 0, 0, $month - 1, 1, $year));
-$nextdate = date("Y-m-d", mktime(0, 0, 0, $month + 1, 1, $year));
-
 //총일수 구하기
 $max_day = date('t', mktime(0, 0, 0, $month, 1, $year));
 
