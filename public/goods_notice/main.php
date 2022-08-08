@@ -8,7 +8,7 @@
   $selRow  = mysqli_fetch_array($selRes);
   $num = $selRow[0];
 
-  echo $num;
+  // echo $num;
   
 
   $list_num = 5;
@@ -85,14 +85,14 @@
         <option value="goods_nm" selected>상품명</option>
 
       </select>
-      <input type="search" size="45" name="search" required="required" placeholder="Search">
+      <input type="search" size="45" name="search" required="required" placeholder="상품명을 입력하세요">
       <input type=button name=byn1 onclick="search1()" value="찾기">
       </form>
     </div>
-    <form method="POST" action="delete2.php">
+    <form method="POST" name="f">
     <div style="text-align:right;padding-top:30px;">
       <input type="button" class="btn btn-primary" id="reg_btn" name="reg_btn" value="등록" onclick="open_popup();" >&nbsp;&nbsp;&nbsp;
-      <input type="submit" class="btn btn-danger" id="del_btn2" name="del_btn2" value="삭제" >&nbsp;&nbsp;&nbsp;
+      <input type="button" class="btn btn-danger" id="del_btn2" name="del_btn2" value="삭제" onclick="historyDel();" >&nbsp;&nbsp;&nbsp;
       <select class="form-control" style="width:auto;display:inline-block;" id="sort" name="sort">
         <option>==정렬==</option>
         <option value="1">상품이름순</option>
@@ -271,7 +271,29 @@ $(function(){
 </script>
 
 <script>
+function historyDel(){
+  var form = document.f;
+  var boo = false;
 
+  if(document.getElementsByName("chk[]").length>0){
+    for(var i=0;i<document.getElementsByName("chk[]").length;i++){
+      if(document.getElementsByName("chk[]")[i].checked==true){
+        boo = true;
+        break;
+        
+        
+
+      }
+    }
+  }
+  if(boo){
+    form.action = "delete2.php";
+    form.submit();
+    alert("선택한 항목은 입니다.");
+  }else{
+    alert("삭제할 항목을 적어도 하나는 체크해주세요");
+  }
+}
 </script>
 
 </body>
