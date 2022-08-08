@@ -256,18 +256,6 @@ $(function() {
 </script>
 
 <script>
-// $(function(){
-//   $('#show').change(function(){
-//     var count = $('#show').val();
-//     var count1 = parseInt(count,10);
-//     alert(count1);
-  
-//   });
-// });
-
-</script>
-
-<script>
   function search1(){
     if(frm1.search.value){
       frm1.submit();
@@ -295,6 +283,7 @@ $(function() {
 });
 </script>
 
+<!-- 선택삭제 일괄삭제 기능 -->
 <script>
 function historyDel(){
   var form = document.f;
@@ -318,7 +307,7 @@ function historyDel(){
 }
 </script>
 
-
+<!-- 셀렉트 박스에있는 값만큼 행 보여주는 기능 -->
 <script>
   $(document).ready(function(){
     $("select[name='show']").change(function(){
@@ -330,13 +319,6 @@ function historyDel(){
         location.href = url;
 
         console.log(url);
-
-
-
-
-
-
-
        
     });
   });
