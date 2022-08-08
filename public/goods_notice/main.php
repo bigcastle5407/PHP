@@ -1,3 +1,4 @@
+
 <?php
   $db_conn = mysqli_connect('localhost','root','qwe123','goods');
   $selSql = "
@@ -9,15 +10,18 @@
   $num = $selRow[0];
 
   // echo $num;
+
+
+      $list_num = 5;
+      $page_num = 5;
+      $page = isset($_GET["page"]) ? $_GET["page"] : 1;
+      $total_page = ceil($num / $list_num);
+      $total_block = ceil($total_page / $page_num);
+      $now_block = ceil($page / $page_num);
+      $s_pageNum = ($now_block - 1) * $page_num + 1;
+    
   
 
-  $list_num = 5;
-  $page_num = 5;
-  $page = isset($_GET["page"]) ? $_GET["page"] : 1;
-  $total_page = ceil($num / $list_num);
-  $total_block = ceil($total_page / $page_num);
-  $now_block = ceil($page / $page_num);
-  $s_pageNum = ($now_block - 1) * $page_num + 1;
 
   if($s_pageNum <= 0){
       $s_pageNum = 1;
@@ -64,6 +68,16 @@
 }
 ?>
 
+<?
+$search = $_GET['search'];
+$kind = $_GET['kind'];
+
+
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -75,18 +89,20 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="goods_notice/resource/js/bootstrap.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+    
   </head>
   <body style="width:90%; margin:auto;" id="body">
     <h1 style="text-align:center; border-bottom:1px gray solid; padding-bottom:30px;">상품 관리</h1>
     <div class="searchArea">
-      <form action="main.php" method="GET" name="frm1">
+      <form action="" method="GET" name="frm1">
       <select name="kind">
         <option value="category">카테고리</option>
         <option value="goods_nm" selected>상품명</option>
 
       </select>
-      <input type="search" size="45" name="search" required="required" placeholder="상품명을 입력하세요">
-      <input type=button name=byn1 onclick="search1()" value="찾기">
+      <input type="search" size="45" name="search" required="required" placeholder="상품명을 입력해주세요">
+      <input type=button name=byn1 value="찾기">
       </form>
     </div>
     <form method="POST" name="f">
@@ -99,7 +115,7 @@
         <option value="2">상품등록순</option>
       </select>
       <select class="form-control" style="width:auto;display:inline-block;" id="show" name="show">
-        <option>==보기==</option>
+        <option value="">==보기==</option>
         <option value="2">2개</option>
         <option value="5">5개</option>
         <option value="10">10개</option>
@@ -124,6 +140,7 @@
     <?php
       while($data = mysqli_fetch_array($result)){
     ?>
+    
     <tr style='text-align:center;'>
       <td style='text-align:center; width:50px;'><?=$data['idx']?></td>
       <td style='text-align:center; width:50px;'><input type="checkbox" name="chk[]" value="<?=$data['idx']?>"></td>
@@ -231,14 +248,14 @@ $(function() {
 </script>
 
 <script>
-$(function(){
-  $('#show').change(function(){
-    var count = $('#show').val();
-    var count1 = parseInt(count,10);
-    alert(count1);
+// $(function(){
+//   $('#show').change(function(){
+//     var count = $('#show').val();
+//     var count1 = parseInt(count,10);
+//     alert(count1);
   
-  });
-});
+//   });
+// });
 
 </script>
 
@@ -280,21 +297,41 @@ function historyDel(){
       if(document.getElementsByName("chk[]")[i].checked==true){
         boo = true;
         break;
-        
-        
-
       }
     }
   }
   if(boo){
     form.action = "delete2.php";
     form.submit();
-    alert("선택한 항목은 입니다.");
+    alert("선택한 항목은"+ document.getElementsByName("chk[]")[i].val +"입니다.");
   }else{
     alert("삭제할 항목을 적어도 하나는 체크해주세요");
   }
 }
 </script>
 
+
+<script>
+  $(document).ready(function(){
+    $("select[name='show']").change(function(){
+        var sel = $(this).val();
+
+        $.ajax({
+          url  : "show.php",
+          type : "GET",
+          data : sel,
+          success : function(data, status, xhr) {
+            console.log(data);
+            console.log(status);
+            console.log(xhr);
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR.responseText);
+          }
+        });
+    });
+  });
+
+</script>
 </body>
 </html>
