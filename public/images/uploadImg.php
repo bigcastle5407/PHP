@@ -1,19 +1,35 @@
-<?
+<?php
+
 require_once('./db/db.php');
 
-$img = $_POST['img'];
-$src = $_POST['src'];
+$servername = "localhost";
+$username = "root";
+$password = "qwe123";
+$dbname = "dogImages";
 
-echo $img;
-echo $src;
+$method = $_SERVER['REQUEST_METHOD'];
 
-$conn = mysqli_connect('localhost','root','qwe123','dogimages');
-$sql = "
-    insert into dogimages(idx, dogImages)
-    values(null,'$img')
+
+if($method == "POST") {
+    $img = $_POST['src'];
+ 
+    try {
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "
+            insert into dogImages(idx, dogImages)
+            values(null,'$img')
         ";
-mysqli_query($conn, $sql);
+        $conn->exec($sql);
+       
+       
+    } catch(PDOException $e) {
+        echo $sql . "<br>" . $e->getMessage();
+    }
+        
+        $conn = null;
 
+}
 
 
 

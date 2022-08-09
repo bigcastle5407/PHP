@@ -2,8 +2,8 @@
 
 
 // require_once './goods_notice/main.php';
-// require_once './calendar/calendar.html';
-require_once './images/img.php';
+require_once './calendar/calendar.html';
+// require_once './images/img.php';
 exit;
 
 use Illuminate\Contracts\Http\Kernel;

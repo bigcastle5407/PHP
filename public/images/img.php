@@ -25,13 +25,19 @@
     
     <img src="" alt="" id="img" name="img">
     <p><input type="file" name="file" accept="image/jpeg,image/gif,image/png" id="input_image"></p>
-    <!-- <p><input type="submit" id="btn_files" value="등록"></p> -->
     <p><input type="button" value="등록" onclick="test();"></p>
-    
-    <img src="" alt="" id="img2">
-
-
-
+    <table>
+        <tr>
+    <?php 
+        while($row = mysqli_fetch_array($result)){
+    ?>
+            <td><img src="<?=$row['dogImages']?> "id="img" style="width:100px;height:100px;"></td>
+    <?php
+        }
+    // }
+    ?>
+    </tr>
+    </table>
     <script>
         function readImage(input){
             if(input.files && input.files[0]){
@@ -59,15 +65,18 @@
 
             $.ajax({
                 type: 'post',
-                url : "img.php",
-                data: src,
+                url : "/images/uploadImg.php",
+                data: {src},
                 success : function(data, status, xhr) {
-                    console.log(src);
+                    console.log(data);
+                    location.reload();                    
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log(jqXHR,errorThrown,textStatus)
                 }
             });
+
+
         };
     </script>
 
