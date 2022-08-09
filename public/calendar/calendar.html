@@ -1,31 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-  
+	<meta charset="UTF-8">
+	<title>calendar</title>
+	<style>
+		#yearMonth{
+			width: 250px;
+		}
+		tr td:nth-child(1){
+			color: red;
+		}
+		tr td:nth-child(7){
+			color: blue;
+		}
+
+        table, tr,td{border:1px solid black;}
+	</style>
+	
 </head>
 <body>
-    <script>
-        var today = new Date();
-        var date = new Date();
+		<table id="calendar_table" style="margin:auto; margin-top: 100px;" >
+			<tr id="mainBar">
+				<td id="preventMonth" colspan="1"><input type="button" id="preventMonth_Button"  value="◀" onclick="prevMonth()"></td>
+				<td id="yearMonth" colspan="5" style="text-align:center;"></td>
+				<td id="nextMonth" colspan="1"><input type="button" id="nextMonth_Button" value="▶" onclick="nextMonth()"></td>
+			</tr>
+			<tr>
+				<td>일</td>
+				<td>월</td>
+				<td>화</td>
+				<td>수</td>
+				<td>목</td>
+				<td>금</td>
+				<td>토</td>
+			</tr>
+		</table>
 
-        function preDate(){
-            today = new Date(today.getFullYear(), today.getMonth()-1, today.getDate());
-            buildCalendar();
-        }
+	
+	<script>
+		let today = new Date();
+		
+		let todayYear = today.getFullYear();
+		let todayMonth = today.getMonth() +1;
+		console.log(todayMonth)
+		let calendar = document.getElementById("calendar_table");
 
-        function nextDate(){
-            today = new Date(today.getFullYear(), today.getMonth()+1, today.getDate());
-            buildCalendar();
-        }
+		function buildCalendar(){
+			let firstDate = new Date(todayYear, todayMonth-1,1);
+			let lastDate = new Date(todayYear, todayMonth,0);
+			let day = firstDate.getDay();
+			let week = Math.ceil(lastDate.getDate()/7) + 1;
+			let today_yearMonth = todayYear + "년 " + todayMonth + "월";
+			let leftDays = 7; 
+			let setDays = 1; 
+			let nextMonthDate = 1;
+			console.log(lastDate);
+			for(i = 1; i < week; i++){
+				let row = calendar.insertRow();
+				while(day != 0){
+					row.insertCell().innerHTML = "";
+					day -= 1;
+					leftDays -= 1;
+				} // 1주
+				while(leftDays != 0){
+					if(setDays > lastDate.getDate()){
+						row.insertCell().innerHTML = nextMonthDate;
+						leftDays -= 1;
+						nextMonthDate += 1;
+					}else{
+						row.insertCell().innerHTML = setDays;
+						setDays +=1;
+						leftDays -= 1;
+					}
+				}
+				leftDays = 7;
+			}
+			setDays -=1;
+			if(setDays != lastDate.getDate()){
+				let row = calendar.insertRow();
+				while(setDays != lastDate.getDate()){
+					setDays++;
+					leftDays--;
+					row.insertCell().innerHTML = setDays;
+				}
+				while(leftDays != 0){
+					row.insertCell().innerHTML = nextMonthDate;
+					nextMonthDate++;
+					leftDays--;
+				}
+			}
+			document.getElementById("yearMonth").innerHTML= today_yearMonth;
+		}
+		buildCalendar();
 
-        function buildCalendar(){
-            var doMonth = new Date(today.getFullYear(), today.getMonth(),1);
-        }
+		function deleteCalendar(){
+			while(calendar.rows.length > 2){
+				calendar.deleteRow(2);
+			}
+		}
 
-    </script>
+		function prevMonth(){
+			todayMonth = todayMonth -1;
+			if(todayMonth == 0){
+				todayMonth = 12;
+				todayYear -= 1;
+			}
+			deleteCalendar();
+			today = new Date(todayYear,todayMonth-1);
+			buildCalendar();
+		}
+		function nextMonth(){
+			todayMonth +=1;
+			if(todayMonth == 13){
+				todayMonth = 1;
+				todayYear = todayYear +1;
+			}
+			deleteCalendar();
+			today = new Date(todayYear,todayMonth - 1);			
+			buildCalendar();
+		}
+	</script>
 </body>
 </html>
