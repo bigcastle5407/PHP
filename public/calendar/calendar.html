@@ -8,6 +8,24 @@
   
 </head>
 <body>
-    
+    <script>
+        var today = new Date();
+        var date = new Date();
+
+        function preDate(){
+            today = new Date(today.getFullYear(), today.getMonth()-1, today.getDate());
+            buildCalendar();
+        }
+
+        function nextDate(){
+            today = new Date(today.getFullYear(), today.getMonth()+1, today.getDate());
+            buildCalendar();
+        }
+
+        function buildCalendar(){
+            var doMonth = new Date(today.getFullYear(), today.getMonth(),1);
+        }
+
+    </script>
 </body>
 </html>
