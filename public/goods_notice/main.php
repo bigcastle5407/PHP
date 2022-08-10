@@ -1,4 +1,3 @@
-
 <?php
   $db_conn = mysqli_connect('localhost','root','qwe123','goods');
   $selSql = "
@@ -12,11 +11,24 @@
   // echo $num;
 
   $query_string = $_SERVER["QUERY_STRING"];
-
-  // echo  $query_string;
+  $request_url = $_SERVER[ "REQUEST_URI" ];
+  echo $request_url;
+  // echo $query_string;
 
   $show = $_GET['show'];
-
+  
+  $sort = $_GET['sort'];
+  switch($sort){
+    case 'rt':
+      $sort2 = "asc";
+      break;
+    case 'goods_nm':
+      $sort2 = "asc";
+      break;
+    default:
+      $sort2 = "desc";
+      break;
+  }
   // echo $show;
 
   $list_num = $show;
@@ -26,9 +38,6 @@
   $total_block = ceil($total_page / $page_num);
   $now_block = ceil($page / $page_num);
   $s_pageNum = ($now_block - 1) * $page_num + 1;
-
-  
-
 
   if($s_pageNum <= 0){
       $s_pageNum = 1;
@@ -42,11 +51,11 @@
 
   $start = ($page - 1) * $list_num;
   $conn = mysqli_connect('localhost','root','qwe123','goods');
-  
+  // $sort $sort2
   $sql = "
       select * 
       from goods 
-      order by idx desc limit $start, $list_num;
+      order by $sort $sort2 limit $start, $list_num;
           ";
           // echo $sql;
   $result = mysqli_query($conn, $sql);
@@ -54,37 +63,13 @@
   $cnt = $start + 1;
 ?>
 
-<?
-  if(isset($_GET['search'])){
-    $sel = $_GET['kind'];
-    $search = $_GET['search'];
-    $search_conn = mysqli_connect('localhost','root','qwe123','goods');
-    $search_sql="
-              select * 
-              from goods
-              where goods_nm like '%$search%' order by id desc limit $start, $list_num";
-  $search_result=mysqli_query($search_conn, $search_sql);
-  $search_sql2="
-              select count(*) 
-              from goods
-              where goods_nm like '%$search%'
-               ";
-
-  $result_count=mysqli_query($search_conn,$search_sql2);
-
-}
+<?php
+  if(empty($_REQUEST["search_word"])){ // 검색어가 empty일 때 예외처리를 해준다.
+    $search_word ="";
+  }else{
+    $search_word =$_REQUEST["search_word"];
+  }
 ?>
-
-<?
-$search = $_GET['search'];
-$kind = $_GET['kind'];
-
-
-?>
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -96,30 +81,27 @@ $kind = $_GET['kind'];
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="goods_notice/resource/js/bootstrap.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-
-    
   </head>
   <body style="width:90%; margin:auto;" id="body">
     <h1 style="text-align:center; border-bottom:1px gray solid; padding-bottom:30px;">상품 관리</h1>
     <div class="searchArea">
-      <form action="" method="GET" name="frm1">
-      <select name="kind">
-        <option value="category">카테고리</option>
-        <option value="goods_nm" selected>상품명</option>
-
-      </select>
-      <input type="search" size="45" name="search" required="required" placeholder="상품명을 입력해주세요">
-      <input type=button name=byn1 value="찾기">
-      </form>
+    
+    <form method="get" action="<?php $request_url?>">
+      <input type="text" name="search_word" class="form-control" placeholder="검색어를 입력 후 enter를 누르세요" autofocus>
+    </form>
+    <?php
+        $search_conn = mysqli_connect('localhost','root','qwe123','goods');
+        $s_sql = "select * from goods where goods_nm like '%$search_word%' order by idx desc limit $start, $list_num "; 
+        $search_result=mysqli_query($search_conn, $s_sql);
+    ?> 
     </div>
-    <form method="POST" name="f">
     <div style="text-align:right;padding-top:30px;">
       <input type="button" class="btn btn-primary" id="reg_btn" name="reg_btn" value="등록" onclick="open_popup();" >&nbsp;&nbsp;&nbsp;
       <input type="button" class="btn btn-danger" id="del_btn2" name="del_btn2" value="삭제" onclick="historyDel();" >&nbsp;&nbsp;&nbsp;
       <select class="form-control" style="width:auto;display:inline-block;" id="sort" name="sort">
-        <option>==정렬==</option>
-        <option value="1">상품이름순</option>
-        <option value="2">상품등록순</option>
+        <option value="idx" selected>==정렬==</option>
+        <option value="goods_nm">상품이름순</option>
+        <option value="rt">상품등록순</option>
       </select>
       <select class="form-control" style="width:auto;display:inline-block;" id="show" name="show">
         <option value="">==보기==</option>
@@ -145,9 +127,11 @@ $kind = $_GET['kind'];
   </thead>
   <tbody>
     <?php
+    if(!isset($_REQUEST["search_word"])){
       while($data = mysqli_fetch_array($result)){
-    ?>
     
+    
+    ?>
     <tr style='text-align:center;'>
       <td style='text-align:center; width:50px;'><?=$data['idx']?></td>
       <td style='text-align:center; width:50px;'><input type="checkbox" name="chk[]" value="<?=$data['idx']?>"></td>
@@ -161,13 +145,28 @@ $kind = $_GET['kind'];
     </tr>
     <?php
       $cnt++;
-
       }
+    }else{
+      while($data = mysqli_fetch_array($search_result)){
     ?>
+      <tr style='text-align:center;'>
+      <td style='text-align:center; width:50px;'><?=$data['idx']?></td>
+      <td style='text-align:center; width:50px;'><input type="checkbox" name="chk[]" value="<?=$data['idx']?>"></td>
+      <td style='width:100px;'><?=$data['category']?></td>
+      <td style='width:170px;'><a href="goods_notice/modify.php?idx=<?=$data['idx']?>" onclick="window.open(this.href,'register page','left=600, top=500, width=700, height=900, scrollbars=no, resizeable=no');return false"><?=$data['goods_nm']?></a></td>
+      <td style='width:60px;'><?=$data['color']?></td>
+      <td style='width:60px;'><?=$data['size']?></td>
+      <td style='width:60px;'><?=$data['price'].'원'?></td>
+      <td><?=$data['rt']?></td>
+      <td><?=$data['ut']?></td>
+    </tr>
+
+    
+    <?php 
+        $cnt++;
+        }
+      } ?>
 </tbody>
-
-
-
 </table>
 <!-- 페이징 -->
 <p class="pager">
@@ -175,28 +174,28 @@ $kind = $_GET['kind'];
     <?php
       if($page <= 1){
     ?>
-      <a href="main.php?page=1">이전</a>
+      <a href="?page=1&show=<?php echo $show?>&sort=<?php echo $sort?>">이전</a>
     <?php } else{ ?>
-    <a href="main.php?page=<?php echo ($page-1); ?>">이전</a>
+    <a href="?page=<?php echo ($page-1); ?>&show=<?php echo $show?>&sort=<?php echo $sort?>">이전</a>
     <?php };?>
 
     <?php
       for($print_page = $s_pageNum; $print_page <= $e_pageNum; $print_page++){
     ?>
   
-      <a href="main.php?page=<?php echo $print_page;?>"><?php echo $print_page; ?></a>
+      <a href="?page=<?php echo $print_page;?>&show=<?php echo $show?>&sort=<?php echo $sort?>"><?php echo $print_page; ?></a>
     <?php };?>
 
     <?php
       if($page >= $total_page){
     ?>
-      <a href="main.php?page=<?php echo $total_page; ?>">다음</a>
+      <a href="?page=<?php echo $total_page; ?>&show=<?php echo $show?>&sort=<?php echo $sort?>">다음</a>
     <?php } else{ ?>
-      <a href="main.php?page=<?php echo ($page+1); ?>">다음</a>
+      <a href="?page=<?php echo ($page+1); ?>&show=<?php echo $show?>&sort=<?php echo $sort?>">다음</a>
     <?php };?>
 
     </p>
-    </form>
+ 
    
 <script>
     function open_popup() {
@@ -229,53 +228,41 @@ $kind = $_GET['kind'];
 
 </script>
 
-<!-- 셀렉트박스 정렬 -->
+<!-- 검색기능 -->
 <script>
-$(function() {
+  // function search(){
+  //   var search = document.getElementById("search").value;
+    
+  //   $.ajax({
+  //       type: 'get',
+  //       url : window.location.href+"&search="+search,
+  //       data: {search: search},
+  //       dataType:"json",
+  //       success : function(data, status, xhr) {
+  //           console.log(data);
+            
+  //       },
+  //       error: function(jqXHR, textStatus, errorThrown) {
+  //           console.log(jqXHR.responseText);
+  //       }
+  //   });
 
-    $("#sort").change(function() {
+  // }
 
-        var v = $("#sort").val();
 
-       if(v==1){
-        <?php
-           $conn = mysqli_connect('localhost','root','qwe123','goods');
-           $sql = "
-               select * 
-               from goods 
-               order by goods_nm asc limit $start, $list_num;
-                   ";
-           $result = mysqli_query($conn, $sql);
-        ?>
-       }
-      
-    });
-
-});
-
-</script>
-
-<script>
-  function search1(){
-    if(frm1.search.value){
-      frm1.submit();
-    }else{
-      location.href="main.php"
-    }
-  }
 </script>
 
 <!-- 체크박스 전체선택 -->
 <script>
  $(document).ready(function() {
 	$("#cbx_chkAll").click(function() {
-		if($("#cbx_chkAll").is(":checked")) $("input[name=chk]").prop("checked", true);
-		else $("input[name=chk]").prop("checked", false);
+		if($("#cbx_chkAll").is(":checked")) $("input[name='chk[]']").prop("checked", true);
+		else $("input[name='chk[]']").prop("checked", false);
 	});
 
-	$("input[name=chk]").click(function() {
-		var total = $("input[name=chk]").length;
-		var checked = $("input[name=chk]:checked").length;
+	$("input[name='chk[]']").click(function() {
+		var total = $("input[name='chk[]']").length;
+		var checked = $("input[name='chk[]']:checked").length;
 
 		if(total != checked) $("#cbx_chkAll").prop("checked", false);
 		else $("#cbx_chkAll").prop("checked", true); 
@@ -286,25 +273,56 @@ $(function() {
 <!-- 선택삭제 일괄삭제 기능 -->
 <script>
 function historyDel(){
-  var form = document.f;
-  var boo = false;
 
-  if(document.getElementsByName("chk[]").length>0){
-    for(var i=0;i<document.getElementsByName("chk[]").length;i++){
-      if(document.getElementsByName("chk[]")[i].checked==true){
+var chk_arr = $("input[name='chk[]']");
+var boo = false;
+
+var chk_data = [];
+for( var i=0; i<chk_arr.length; i++ ) {
+    if( chk_arr[i].checked == true ) {
+        chk_data.push(chk_arr[i].value);
         boo = true;
-        break;
-      }
+        
     }
+}
+if(boo){
+  if(!confirm('선택한 상품을 삭제하시겠습니까?')){
+
+  }else{
+    location.reload();
   }
-  if(boo){
-    form.action = "delete2.php";
-    form.submit();
-    alert("선택한 항목은"+ document.getElementsByName("chk[]")[i].val +"입니다.");
+    $.ajax({
+        type: 'post',
+        url : "/goods_notice/delete2.php",
+        data: {chk: chk_data},
+        dataType:"json",
+        success : function(data, status, xhr) {
+            console.log(data);
+            location.reload();
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR.responseText);
+        }
+    });
   }else{
     alert("삭제할 항목을 적어도 하나는 체크해주세요");
   }
 }
+</script>
+
+<!-- 상품 등록순 상품명 순으로 정렬 기능 -->
+<script>
+  $(document).ready(function(){
+    $("select[name='sort']").change(function(){
+        var sel2 = $(this).val();
+        console.log(sel2);
+        
+        var url2 = window.location.href + "&sort="+sel2;
+
+        location.href = url2;
+    });
+  });
+
 </script>
 
 <!-- 셀렉트 박스에있는 값만큼 행 보여주는 기능 -->
@@ -314,7 +332,7 @@ function historyDel(){
         var sel = $(this).val();
         console.log(sel);
         
-        var url = location.pathname + "?page=" + <?php echo $page;?> + "&show="+sel;
+        var url = window.location.href + "&show="+sel;
 
         location.href = url;
 
