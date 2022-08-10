@@ -14,16 +14,19 @@
 			color: blue;
 		}
 
-        table, tr,td{border:1px solid black;}
+        table, tr,td{border:1px solid black; text-align:center;}
 	</style>
 	
 </head>
 <body>
 		<table id="calendar_table" style="margin:auto; margin-top: 100px;" >
 			<tr id="mainBar">
-				<td id="preventMonth" colspan="1"><input type="button" id="preventMonth_Button"  value="◀" onclick="prevMonth()"></td>
+				<!-- 이전달 버튼 -->
+				<td id="prevMonth" colspan="1"><input type="button" id="btn_prevMonth"  value="◀" onclick="prevMonth()"></td>
+				<!-- 년도와 달이 표시되는 부분 -->
 				<td id="yearMonth" colspan="5" style="text-align:center;"></td>
-				<td id="nextMonth" colspan="1"><input type="button" id="nextMonth_Button" value="▶" onclick="nextMonth()"></td>
+				<!-- 다음달 버튼 -->
+				<td id="nextMonth" colspan="1"><input type="button" id="nextMonth" value="▶" onclick="nextMonth()"></td>
 			</tr>
 			<tr>
 				<td>일</td>
@@ -38,19 +41,19 @@
 
 	
 	<script>
-		let today = new Date();
 		
-		let todayYear = today.getFullYear();
-		let todayMonth = today.getMonth() +1;
+		let today = new Date();//현재 날짜
+		let todayYear = today.getFullYear();//현재 년도
+		let todayMonth = today.getMonth() +1;//현재 달
 		console.log(todayMonth)
 		let calendar = document.getElementById("calendar_table");
 
 		function buildCalendar(){
-			let firstDate = new Date(todayYear, todayMonth-1,1);
-			let lastDate = new Date(todayYear, todayMonth,0);
-			let day = firstDate.getDay();
-			let week = Math.ceil(lastDate.getDate()/7) + 1;
-			let today_yearMonth = todayYear + "년 " + todayMonth + "월";
+			let firstDate = new Date(todayYear, todayMonth-1,1); //달의 첫날짜
+			let lastDate = new Date(todayYear, todayMonth,0); // 달의 마지막 날짜
+			let day = firstDate.getDay();//달의 첫 요일
+			let week = Math.ceil(lastDate.getDate()/7) + 1; //주 구하기
+			let today_yearMonth = todayYear + "년 " + todayMonth + "월"; //현재 년도와 달을 출력
 			let leftDays = 7; 
 			let setDays = 1; 
 			let nextMonthDate = 1;
@@ -64,7 +67,7 @@
 				} // 1주
 				while(leftDays != 0){
 					if(setDays > lastDate.getDate()){
-						row.insertCell().innerHTML = nextMonthDate;
+						row.insertCell().innerHTML = " ";
 						leftDays -= 1;
 						nextMonthDate += 1;
 					}else{
@@ -89,16 +92,19 @@
 					leftDays--;
 				}
 			}
+			//id가 yearMonth인 tr태그에 년도와 월 출력
 			document.getElementById("yearMonth").innerHTML= today_yearMonth;
 		}
 		buildCalendar();
 
+		// 행 삭제 function
 		function deleteCalendar(){
 			while(calendar.rows.length > 2){
 				calendar.deleteRow(2);
 			}
 		}
 
+		//이전 달 function
 		function prevMonth(){
 			todayMonth = todayMonth -1;
 			if(todayMonth == 0){
@@ -109,6 +115,8 @@
 			today = new Date(todayYear,todayMonth-1);
 			buildCalendar();
 		}
+
+		//다음달 function
 		function nextMonth(){
 			todayMonth +=1;
 			if(todayMonth == 13){
@@ -116,7 +124,7 @@
 				todayYear = todayYear +1;
 			}
 			deleteCalendar();
-			today = new Date(todayYear,todayMonth - 1);			
+			today = new Date(todayYear,todayMonth-1);			
 			buildCalendar();
 		}
 	</script>
