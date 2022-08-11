@@ -72,12 +72,39 @@
     </div>
   </div>
   <div class="form-group row">
+    <label for="img" class="col-sm-2 col-form-label"><h3>사진</h3></label>
+    <div class="col-sm-10">
+      <input type="file" name="file" class="form-control" accept="image/jpeg,image/gif,image/png" id="input_image">
+    </div><br><br>
+    <div style="text-align:center;">
+      <img src="" alt="" id="img" name="img" style="width:500px;height:500px;text-align:center;">
     </div>
+  </div>
   </form>
   <div class="col-sm-10" style="text-align:center;">
     <input type="button" value="등록" class="btn btn-success" id="reg_btn" onclick="AjaxCall('POST');">
     <button class="btn btn-warning" onclick="window.close()">취소</button>
-  </div>
+  </div><br><br><br>
+
+<!-- 이미지 base64로 변환 -->
+  <script>
+      function readImage(input){
+          if(input.files && input.files[0]){
+              const reader = new FileReader();
+            
+              reader.onload = e => {
+              const image = document.getElementById("img");
+              image.src = e.target.result;
+            }
+              reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        const inputImage = document.getElementById("input_image");
+        inputImage.addEventListener("change", e => {
+        readImage(e.target)
+        });
+    </script>
 
 <!-- 가격 1000원 단위로 (,)찍는 스크립트 -->
 <script>

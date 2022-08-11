@@ -12,7 +12,7 @@
 
   $query_string = $_SERVER["QUERY_STRING"];
   $request_url = $_SERVER[ "REQUEST_URI" ];
-  echo $request_url;
+  // echo $request_url;
   // echo $query_string;
 
   $show = $_GET['show'];
@@ -64,10 +64,10 @@
 ?>
 
 <?php
-  if(empty($_REQUEST["search_word"])){ // 검색어가 empty일 때 예외처리를 해준다.
+  if(empty($_GET["search"])){
     $search_word ="";
   }else{
-    $search_word =$_REQUEST["search_word"];
+    $search_word =$_GET["search"];
   }
 ?>
 <!DOCTYPE html>
@@ -86,9 +86,10 @@
     <h1 style="text-align:center; border-bottom:1px gray solid; padding-bottom:30px;">상품 관리</h1>
     <div class="searchArea">
     
-    <form method="get" action="<?php $request_url?>">
-      <input type="text" name="search_word" class="form-control" placeholder="검색어를 입력 후 enter를 누르세요" autofocus>
-    </form>
+    <!-- <form method="get" action="<?php $request_url?>"> -->
+      <input type="text" name="search_word" id="search_word" class="form-control" placeholder="검색어를 입력해주세요." autofocus style="width:300px;display:inline-block;">
+      <input type="button" name="search_btn" class="btn btn-success" value="검색" onclick="search_btn();">
+    <!-- </form> -->
     <?php
         $search_conn = mysqli_connect('localhost','root','qwe123','goods');
         $s_sql = "select * from goods where goods_nm like '%$search_word%' order by idx desc limit $start, $list_num "; 
@@ -97,7 +98,7 @@
     </div>
     <div style="text-align:right;padding-top:30px;">
       <input type="button" class="btn btn-primary" id="reg_btn" name="reg_btn" value="등록" onclick="open_popup();" >&nbsp;&nbsp;&nbsp;
-      <input type="button" class="btn btn-danger" id="del_btn2" name="del_btn2" value="삭제" onclick="historyDel();" >&nbsp;&nbsp;&nbsp;
+      <input type="button" class="btn btn-danger" id="del_btn2" name="del_btn2" value="삭제" onclick="goods_Del();" >&nbsp;&nbsp;&nbsp;
       <select class="form-control" style="width:auto;display:inline-block;" id="sort" name="sort">
         <option value="idx" selected>==정렬==</option>
         <option value="goods_nm">상품이름순</option>
@@ -127,7 +128,7 @@
   </thead>
   <tbody>
     <?php
-    if(!isset($_REQUEST["search_word"])){
+    if(!isset($_GET["search"])){
       while($data = mysqli_fetch_array($result)){
     
     
@@ -230,25 +231,27 @@
 
 <!-- 검색기능 -->
 <script>
-  // function search(){
-  //   var search = document.getElementById("search").value;
-    
-  //   $.ajax({
-  //       type: 'get',
-  //       url : window.location.href+"&search="+search,
-  //       data: {search: search},
-  //       dataType:"json",
-  //       success : function(data, status, xhr) {
-  //           console.log(data);
+  function search_btn(){
+    var search = document.getElementById("search_word").value;
+    var search_url = document.location.href;
+    console.log(search_url);
+    var url3 = search_url + "&search="+search;
+    location.href = url3;
+
+    $.ajax({
+        type: 'get',
+        url : search_url,
+        data: {search:search},
+        dataType:"json",
+        success : function(data, status, xhr) {
+            console.log(data);
             
-  //       },
-  //       error: function(jqXHR, textStatus, errorThrown) {
-  //           console.log(jqXHR.responseText);
-  //       }
-  //   });
-
-  // }
-
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR.responseText);
+        }
+    });
+  }
 
 </script>
 
@@ -272,7 +275,7 @@
 
 <!-- 선택삭제 일괄삭제 기능 -->
 <script>
-function historyDel(){
+function goods_Del(){
 
 var chk_arr = $("input[name='chk[]']");
 var boo = false;
