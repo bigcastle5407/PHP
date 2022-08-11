@@ -76,8 +76,8 @@
     <div class="col-sm-10">
       <input type="file" name="file" class="form-control" accept="image/jpeg,image/gif,image/png" id="input_image">
     </div><br><br>
-    <div style="text-align:center;">
-      <img src="" alt="" id="img" name="img" style="width:500px;height:500px;text-align:center;">
+    <div style="text-align:center;" id="img_div">
+      <img src="" alt="" id="img" name="img" style="width:500px;height:500px;">
     </div>
   </div>
   </form>
@@ -85,6 +85,7 @@
     <input type="button" value="등록" class="btn btn-success" id="reg_btn" onclick="AjaxCall('POST');">
     <button class="btn btn-warning" onclick="window.close()">취소</button>
   </div><br><br><br>
+
 
 <!-- 이미지 base64로 변환 -->
   <script>
@@ -137,33 +138,39 @@
 <script>
 function createData(){
   var sendData = $('#AjaxForm').serialize();
-
-  console.log(sendData);
-
+  const img = document.getElementById("img").src;
   return sendData;
-
+  return img;
 }
 
 function AjaxCall(method) {
-    $.ajax({
-        type: method,
-        url : "json.php?mode=" + method,
-        data: createData(),
-        dataType:"json",
-        success : function(data, status, xhr) {
+  console.log(createData());
+  $.ajax({
+    type: method,
+    url : "json.php?mode=" + method,
+    data: createData(),
+    dataType:"json",
+    success : function(data, status, xhr) {
             console.log(data);
-            window.close();
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
+            window.close(); 
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
             console.log(jqXHR.responseText);
-        }
-    });
+          }
+        });
+        
+
 }
 </script>
 
-
+<!-- 사진 선택시 이미지 보이는 기능 -->
 <script>
- $('#color').val();
+  $(document).ready(function(){
+    $('#img_div').hide();
+    $("input[name='file']").change(function(){
+        $('#img_div').show();
+    });
+  });
 
 </script>
 
