@@ -39,6 +39,15 @@
     </div>
   </div>
   <div class="form-group row">
+    <label for="img" class="col-sm-2 col-form-label"><h3>사진</h3></label>
+    <!-- <div class="col-sm-10">
+      <input type="file" name="file" class="form-control" accept="image/jpeg,image/gif,image/png" id="input_image">
+    </div><br><br> -->
+    <div style="text-align:center;" id="img_div">
+      <img src="<?=$row['img']?>" alt="" id="img" name="img" style="width:500px;height:500px;">
+    </div>
+  </div>
+  <div class="form-group row">
     <label for="category" class="col-sm-2 col-form-label"><h3>카테고리</h3></label>
     <div class="col-sm-10">
       <input type='radio' id='category1' name='category' value='top' <?php if($row['category'] == 'top') echo 'checked'?>>
@@ -139,11 +148,10 @@
 <script>
 function createData2(){
   var sendData = $('#AjaxForm2').serialize();
-
+  var img = document.getElementById("img").src;
+  sendData += "&img="+img;
   console.log(sendData);
-
   return sendData;
-
 }
 
 function AjaxCall2(method) {
@@ -213,8 +221,6 @@ $(function(){
 });
 </script>
 
-
-
 <script>
 $.fn.category = function(val) {
     this.each(function() {    
@@ -229,6 +235,26 @@ $.fn.category = function(val) {
 
 
 </script>
+
+<!-- 이미지 base64로 변환 -->
+<!-- <script>
+      function readImage(input){
+          if(input.files && input.files[0]){
+              const reader = new FileReader();
+            
+              reader.onload = e => {
+              const image = document.getElementById("img");
+              image.src = e.target.result;
+            }
+              reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        const inputImage = document.getElementById("input_image");
+        inputImage.addEventListener("change", e => {
+        readImage(e.target)
+        });
+    </script> -->
 
 </body>
 </html>

@@ -137,10 +137,13 @@
 
 <script>
 function createData(){
+ 
   var sendData = $('#AjaxForm').serialize();
-  const img = document.getElementById("img").src;
+  var img = document.getElementById("img").src;
+  sendData += "&img="+img;
+  console.log(sendData);
   return sendData;
-  return img;
+  
 }
 
 function AjaxCall(method) {
