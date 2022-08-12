@@ -110,28 +110,7 @@
     <input type="button" value="삭제" class="btn btn-danger" id="del_btn" onclick="AjaxCall3('POST');">
     <button class="btn btn-warning" onclick="window.close()">취소</button>
   </div>
-  <?php
- $conn = mysqli_connect('localhost','root','qwe123','goods');
- $sql = "
-     select img
-     from goods
-     where idx>=1
-         ";
- $result3 = mysqli_query($conn, $sql);
-
-?>
-  <table>
-        <tr>
-    <?php 
-        while($row3 = mysqli_fetch_array($result3)){
-    ?>
-            <td><img src="<?=$row3['img']?> "id="img" style="width:100px;height:100px;"></td>
-    <?php
-        }
-    // }
-    ?>
-    </tr>
-    </table>
+ 
 <script>
 // window.onload = function() {
 //   var c = document.getElementById("myCanvas");
@@ -177,7 +156,7 @@ function createData2(){
   var img = document.getElementById("img").src;
   sendData += "&img="+img;
   console.log(sendData);
-  return sendData;
+  return ;
 }
 
 function AjaxCall2(method) {

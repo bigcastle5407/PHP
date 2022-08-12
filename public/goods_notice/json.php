@@ -17,17 +17,20 @@ if($method == "POST") {
     $color = $_POST['color'];
     $size = $_POST['size'];
     $price = $_POST['price'];
-    echo(json_encode(array("mode" => $_REQUEST['mode'], "category" => $category, "goods_nm" => $goods_nm,"img" => $img, "color" => $color, "size" => $size, "price" => $price)));
+    // echo(json_encode(array("mode" => $_REQUEST['mode'], "category" => $category, "goods_nm" => $goods_nm,"img" => $img, "color" => $color, "size" => $size, "price" => $price)));
     
     try {
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "insert into goods(idx, category, goods_nm, img, color, size, price, rt)
-                values(null,'$category', '$goods_nm', '$img','$color', '$size', '$price',now())";
+                values(null,'$category', '$goods_nm','$img','$color', '$size', '$price',now())";
         $conn->exec($sql);
        
     } catch(PDOException $e) {
         echo $sql . "<br>" . $e->getMessage();
     }
         $conn = null;
+
+
+    
 }
