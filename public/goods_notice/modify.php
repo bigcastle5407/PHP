@@ -3,14 +3,20 @@
    
     $idx = $_GET['idx'];
 
-
     $conn = mysqli_connect('localhost','root','qwe123','goods');
     $sql = "select * 
             from goods 
             where idx = {$idx}";
     $result = mysqli_query($conn, $sql);
-    $row = $result -> fetch_array(MYSQLI_ASSOC);
+    $row = mysqli_fetch_array($result);
+    // echo $row['img'];
 
+    $sql2 = "select img 
+            from goods 
+            where idx = {$idx}";
+    $img_result = mysqli_query($conn, $sql2);
+    $img_row = mysqli_fetch_array($img_result);
+    // echo $img_row['img'];
 ?>
 
 
@@ -40,11 +46,8 @@
   </div>
   <div class="form-group row">
     <label for="img" class="col-sm-2 col-form-label"><h3>사진</h3></label>
-    <!-- <div class="col-sm-10">
-      <input type="file" name="file" class="form-control" accept="image/jpeg,image/gif,image/png" id="input_image">
-    </div><br><br> -->
     <div style="text-align:center;" id="img_div">
-      <img src="<?=$row['img']?>" alt="" id="img" name="img" style="width:500px;height:500px;">
+      <img src="<?=$img_row['img']?>" alt="" id="img" name="img" style="width:500px;height:500px;">
     </div>
   </div>
   <div class="form-group row">

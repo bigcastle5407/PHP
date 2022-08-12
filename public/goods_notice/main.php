@@ -195,7 +195,7 @@
       <a href="?page=<?php echo ($page+1); ?>&show=<?php echo $show?>&sort=<?php echo $sort?>">다음</a>
     <?php };?>
 
-    </p>
+</p>
  
    
 <script>
