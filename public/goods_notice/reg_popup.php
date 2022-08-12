@@ -136,18 +136,17 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
 <script>
-function createData(){
- 
+
+ function createData(){
   var sendData = $('#AjaxForm').serialize();
-  var img = document.getElementById("img").src;
+  const img = document.getElementById("img").src;
   sendData += "&img="+img;
   console.log(sendData);
   return sendData;
   
-}
+ }
 
 function AjaxCall(method) {
-  console.log(createData());
   $.ajax({
     type: method,
     url : "json.php?mode=" + method,
@@ -155,7 +154,7 @@ function AjaxCall(method) {
     dataType:"json",
     success : function(data, status, xhr) {
             console.log(data);
-            window.close(); 
+            // window.close();
           },
           error: function(jqXHR, textStatus, errorThrown) {
             console.log(jqXHR.responseText);

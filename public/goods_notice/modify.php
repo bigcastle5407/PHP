@@ -10,15 +10,7 @@
     $result = mysqli_query($conn, $sql);
     $row = mysqli_fetch_array($result);
     // echo $row['img'];
-
-    $sql2 = "select img 
-            from goods 
-            where idx = {$idx}";
-    $img_result = mysqli_query($conn, $sql2);
-    $img_row = mysqli_fetch_array($img_result);
-    // echo $img_row['img'];
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -43,13 +35,13 @@
     <div class="col-sm-10">
      <input type="hidden" class="form-control" id="idx" name="idx" value="<?=$row['idx']?>"> 
     </div>
-  </div>
-  <div class="form-group row">
-    <label for="img" class="col-sm-2 col-form-label"><h3>사진</h3></label>
-    <div style="text-align:center;" id="img_div">
-      <img src="<?=$img_row['img']?>" alt="" id="img" name="img" style="width:500px;height:500px;">
     </div>
-  </div>
+    <div style="text-align:center;">
+      <img src="<?=$row['img']?>" alt="" id="img" name="img" style="width:500px;height:500px;">
+    </div>
+
+ 
+  
   <div class="form-group row">
     <label for="category" class="col-sm-2 col-form-label"><h3>카테고리</h3></label>
     <div class="col-sm-10">
@@ -118,6 +110,37 @@
     <input type="button" value="삭제" class="btn btn-danger" id="del_btn" onclick="AjaxCall3('POST');">
     <button class="btn btn-warning" onclick="window.close()">취소</button>
   </div>
+  <?php
+ $conn = mysqli_connect('localhost','root','qwe123','goods');
+ $sql = "
+     select img
+     from goods
+     where idx>=1
+         ";
+ $result3 = mysqli_query($conn, $sql);
+
+?>
+  <table>
+        <tr>
+    <?php 
+        while($row3 = mysqli_fetch_array($result3)){
+    ?>
+            <td><img src="<?=$row3['img']?> "id="img" style="width:100px;height:100px;"></td>
+    <?php
+        }
+    // }
+    ?>
+    </tr>
+    </table>
+<script>
+// window.onload = function() {
+//   var c = document.getElementById("myCanvas");
+//   var ctx = c.getContext("2d");
+//   var img = document.getElementById("img");
+//   ctx.drawImage(img, 10, 10);
+// }
+
+</script>
 
 <!-- 가격 1000원 단위로 (,)찍는 스크립트 -->
 <script>
@@ -240,24 +263,24 @@ $.fn.category = function(val) {
 </script>
 
 <!-- 이미지 base64로 변환 -->
-<!-- <script>
-      function readImage(input){
-          if(input.files && input.files[0]){
-              const reader = new FileReader();
+<script>
+      // function readImage(input){
+      //     if(input.files && input.files[0]){
+      //         const reader = new FileReader();
             
-              reader.onload = e => {
-              const image = document.getElementById("img");
-              image.src = e.target.result;
-            }
-              reader.readAsDataURL(input.files[0]);
-            }
-        }
+      //         reader.onload = e => {
+      //         const image = document.getElementById("img");
+      //         image.src = e.target.result;
+      //       }
+      //         reader.readAsDataURL(input.files[0]);
+      //       }
+      //   }
 
-        const inputImage = document.getElementById("input_image");
-        inputImage.addEventListener("change", e => {
-        readImage(e.target)
-        });
-    </script> -->
+      //   const inputImage = document.getElementById("input_image");
+      //   inputImage.addEventListener("change", e => {
+      //   readImage(e.target)
+      //   });
+    </script>
 
 </body>
 </html>

@@ -4,13 +4,6 @@ require_once('./db/db.php');
 header("Content-Type: application/json");
 
 $method = $_SERVER['REQUEST_METHOD'];
-$category = "";
-$goods_nm = "";
-$img = "";
-$color = "";
-$size = "";
-$price="";
-$rt = "";
 
 $servername = "localhost";
 $username = "root";
