@@ -7,7 +7,6 @@
   $selRes  = mysqli_query($db_conn, $selSql);
   $selRow  = mysqli_fetch_array($selRes);
   $num = $selRow[0];
-
   // echo $num;
 
   $query_string = $_SERVER["QUERY_STRING"];
@@ -31,6 +30,7 @@
   }
   // echo $show;
 
+
   $list_num = $show;
   $page_num = 5;
   $page = isset($_GET["page"]) ? $_GET["page"] : 1;
@@ -38,6 +38,7 @@
   $total_block = ceil($total_page / $page_num);
   $now_block = ceil($page / $page_num);
   $s_pageNum = ($now_block - 1) * $page_num + 1;
+  
 
   if($s_pageNum <= 0){
       $s_pageNum = 1;
@@ -55,7 +56,7 @@
   $sql = "
       select * 
       from goods 
-      order by $sort $sort2 limit $start, $list_num;
+      order by $sort $sort2 limit $start, $list_num
           ";
           // echo $sql;
   $result = mysqli_query($conn, $sql);
@@ -69,7 +70,8 @@
   }else{
     $search_word =$_GET["search"];
   }
-?>
+  ?>
+ 
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -85,17 +87,38 @@
   <body style="width:90%; margin:auto;" id="body">
     <h1 style="text-align:center; border-bottom:1px gray solid; padding-bottom:30px;">상품 관리</h1>
     <div class="searchArea">
-    
-    <!-- <form method="get" action="<?php $request_url?>"> -->
       <input type="text" name="search_word" id="search_word" class="form-control" placeholder="검색어를 입력해주세요." autofocus style="width:300px;display:inline-block;">
       <input type="button" name="search_btn" class="btn btn-success" value="검색" onclick="search_btn();">
-    <!-- </form> -->
-    <?php
-        $search_conn = mysqli_connect('localhost','root','qwe123','goods');
-        $s_sql = "select * from goods where goods_nm like '%$search_word%' order by idx desc limit $start, $list_num "; 
-        $search_result=mysqli_query($search_conn, $s_sql);
-    ?> 
     </div>
+
+    <?php 
+      $search_conn = mysqli_connect('localhost','root','qwe123','goods');
+      $search_sql = "
+            select * 
+            from goods 
+            where goods_nm like '%$search_word%' order by idx desc limit $start, $list_num 
+                "; 
+      $search_result=mysqli_query($search_conn, $search_sql);
+    ?>
+
+    <!-- 검색값을 찾는 sql문 -->
+    <?php
+      $search_count_conn = mysqli_connect('localhost','root','qwe123','goods');
+      $search_count_sql = "
+          select count(*)
+          from goods
+          where goods_nm like '%$search_word%'
+              ";
+      $search_result2  = mysqli_query($search_count_conn, $search_count_sql);
+      $search_row  = mysqli_fetch_array($search_result2);
+      $num2 = $search_row[0];
+
+      $search_page = ceil($num2 / $list_num);
+      // echo "<pre>";
+      // var_dump($search_result);
+      // echo "</pre>";
+      // exit;
+    ?> 
     <div style="text-align:right;padding-top:30px;">
       <input type="button" class="btn btn-primary" id="reg_btn" name="reg_btn" value="등록" onclick="open_popup();" >&nbsp;&nbsp;&nbsp;
       <input type="button" class="btn btn-danger" id="del_btn2" name="del_btn2" value="삭제" onclick="goods_Del();" >&nbsp;&nbsp;&nbsp;
@@ -130,8 +153,6 @@
     <?php
     if(!isset($_GET["search"])){
       while($data = mysqli_fetch_array($result)){
-    
-    
     ?>
     <tr style='text-align:center;'>
       <td style='text-align:center; width:50px;'><?=$data['idx']?></td>
@@ -170,34 +191,55 @@
 </tbody>
 </table>
 <!-- 페이징 -->
-<p class="pager">
+<?php if(!isset($_GET["search"])){?>
+  <p class="pager">
+      <?php
+        if($page <= 1){
+      ?>
+        <a href="?page=1&show=<?php echo $show?>&sort=<?php echo $sort?>">이전</a>
+      <?php } else{ ?>
+      <a href="?page=<?php echo ($page-1); ?>&show=<?php echo $show?>&sort=<?php echo $sort?>">이전</a>
+      <?php }?>
 
-    <?php
-      if($page <= 1){
-    ?>
-      <a href="?page=1&show=<?php echo $show?>&sort=<?php echo $sort?>">이전</a>
-    <?php } else{ ?>
-    <a href="?page=<?php echo ($page-1); ?>&show=<?php echo $show?>&sort=<?php echo $sort?>">이전</a>
-    <?php };?>
+      <?php
+        for($print_page=$s_pageNum;$print_page<=$e_pageNum;$print_page++){
+      ?>
+        <a href="?page=<?php echo $print_page;?>&show=<?php echo $show?>&sort=<?php echo $sort?>"><?php echo $print_page; ?></a>
+      <?php } ?>
+      <?php
+        if($page >= $total_page){
+      ?>
+        <a href="?page=<?php echo $total_page; ?>&show=<?php echo $show?>&sort=<?php echo $sort?>">다음</a>
+      <?php } else{ ?>
+        <a href="?page=<?php echo ($page+1); ?>&show=<?php echo $show?>&sort=<?php echo $sort?>">다음</a>
+      <?php }?>
+  </p>
+<?php }else{?>
+  <p class="pager">
+      <?php
+        if($page <= 1){
+      ?>
+        <a href="?page=1&show=<?php echo $show?>&sort=<?php echo $sort?>&search=<?php echo $search_word?>">이전</a>
+      <?php } else{ ?>
+      <a href="?page=<?php echo ($page-1); ?>&show=<?php echo $show?>&sort=<?php echo $sort?>&search=<?php echo $search_word?>">이전</a>
+      <?php }?>
 
-    <?php
-      for($print_page = $s_pageNum; $print_page <= $e_pageNum; $print_page++){
-    ?>
-  
-      <a href="?page=<?php echo $print_page;?>&show=<?php echo $show?>&sort=<?php echo $sort?>"><?php echo $print_page; ?></a>
-    <?php };?>
-
-    <?php
-      if($page >= $total_page){
-    ?>
-      <a href="?page=<?php echo $total_page; ?>&show=<?php echo $show?>&sort=<?php echo $sort?>">다음</a>
-    <?php } else{ ?>
-      <a href="?page=<?php echo ($page+1); ?>&show=<?php echo $show?>&sort=<?php echo $sort?>">다음</a>
-    <?php };?>
-
+      <?php
+        for($print_page=$s_pageNum;$print_page<=$search_page;$print_page++){
+      ?>
+        <a href="?page=<?php echo $print_page;?>&show=<?php echo $show?>&sort=<?php echo $sort?>&search=<?php echo $search_word?>"><?php echo $print_page; ?></a>
+      <?php } ?>
+      <?php
+        if($page >= $total_page){
+      ?>
+        <a href="?page=<?php echo $total_page; ?>&show=<?php echo $show?>&sort=<?php echo $sort?>&search=<?php echo $search_word?>">다음</a>
+      <?php } else{ ?>
+        <a href="?page=<?php echo ($page+1); ?>&show=<?php echo $show?>&sort=<?php echo $sort?>&search=<?php echo $search_word?>">다음</a>
+      <?php }?>
 </p>
+<?php } ?>
  
-   
+<!-- 등록페이지 팝업창 -->
 <script>
     function open_popup() {
         window.open('goods_notice/reg_popup.php','register page','left=600, top=500, width=700, height=900, scrollbars=no, resizeable=no');
