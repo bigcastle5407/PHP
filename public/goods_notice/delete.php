@@ -50,34 +50,4 @@ if($method == "POST") {
         
         $conn = null;
 
-}else if($method == "GET") {
-    $idx = $_GET['idx'];
-    
-    try {
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "
-            delete from
-            goods
-            where idx={$idx}
-            ";
-        $sql2 = "SET @count=0;";
-        $sql3 = "
-            update goods
-            set idx=@count:=@count+1
-                ";
-        $sql4 = "
-            alter table goods 
-            auto_increment=1
-                ";
-        $conn->exec($sql);
-        $conn->exec($sql2);
-        $conn->exec($sql3);
-        $conn->exec($sql4);
-       
-    } catch(PDOException $e) {
-        echo $sql . "<br>" . $e->getMessage();
-    }
-        
-        $conn = null;
-} 
+}

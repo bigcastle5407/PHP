@@ -29,15 +29,19 @@
 <body style="margin-left:30px; margin-right:30px; margin-top:30px;">
 <h1 style="text-align:center; padding-bottom:20px; border-bottom:1px gray solid;">상품수정 및 삭제</h1>
 
-<form id="AjaxForm2" name="AjaxForm2">
+<form id="AjaxForm2" name="AjaxForm2" enctype="multipart/form-data">
   <div class="form-group row">
     
     <div class="col-sm-10">
      <input type="hidden" class="form-control" id="idx" name="idx" value="<?=$row['idx']?>"> 
     </div>
     </div>
+    <div style="display:none;">
+    </div>
     <div style="text-align:center;">
       <img src="<?=$row['img']?>" alt="" id="img" name="img" style="width:500px;height:500px;">
+      <img src="" alt="" id="img_mod" name="img" style="width:500px;height:500px;">
+      <input type="file" name="file" accept="image/jpeg,image/gif,image/png" id="input_image">
     </div>
 
  
@@ -67,9 +71,9 @@
 	<select class="form-control" name="color" id="color" multiple="multiple">
 	  <option value="red" <?php if($row['size'] == 'red') echo 'selected'?>>red</option>
 	  <option value="black" <?php if($row['size'] == 'black') echo 'selected'?>>black</option>
-	  <option value="pink" <?php if($row['size'] == 'pink') echo 'selected'?>>green</option>
+	  <option value="pink" <?php if($row['size'] == 'green') echo 'selected'?>>green</option>
 	  <option value="blue" <?php if($row['size'] == 'blue') echo 'selected'?>>blue</option>
-	  <option value="green" <?php if($row['size'] == 'green') echo 'selected'?>>gray</option>
+	  <option value="green" <?php if($row['size'] == 'gray') echo 'selected'?>>gray</option>
 	  <option value="yellow" <?php if($row['size'] == 'yellow') echo 'selected'?>>yellow</option>
 	  <option value="purple" <?php if($row['size'] == 'purple') echo 'selected'?>>purple</option>
 	  <option value="white" <?php if($row['size'] == 'white') echo 'selected'?>>white</option>
@@ -110,16 +114,38 @@
     <input type="button" value="삭제" class="btn btn-danger" id="del_btn" onclick="AjaxCall3('POST');">
     <button class="btn btn-warning" onclick="window.close()">취소</button>
   </div>
- 
-<script>
-// window.onload = function() {
-//   var c = document.getElementById("myCanvas");
-//   var ctx = c.getContext("2d");
-//   var img = document.getElementById("img");
-//   ctx.drawImage(img, 10, 10);
-// }
 
-</script>
+  
+ <!-- base64로 이미지 전환 -->
+  <script>
+      function readImage(input){
+          if(input.files && input.files[0]){
+              const reader = new FileReader();
+          
+              reader.onload = e => {
+              const image = document.getElementById("img_mod");
+              image.src = e.target.result;
+              }
+              reader.readAsDataURL(input.files[0]);
+          }
+      }
+
+      const inputImage = document.getElementById("input_image");
+      inputImage.addEventListener("change", e => {
+      readImage(e.target)
+      });
+  </script>
+
+  <script>
+    $(document).ready(function(){
+        $('#img_mod').hide();
+        $("input[name='file']").change(function(){
+        $('#img_mod').show();
+        $('#img').hide();
+    });
+  });
+
+  </script>
 
 <!-- 가격 1000원 단위로 (,)찍는 스크립트 -->
 <script>
@@ -152,11 +178,24 @@
 <!-- 수정 Ajax -->
 <script>
 function createData2(){
-  var sendData = $('#AjaxForm2').serialize();
-  var img = document.getElementById("img").src;
-  sendData += "&img="+img;
-  console.log(sendData);
-  return ;
+  var idx = document.getElementById('idx').value;
+  var category = $('input[name=category]:checked').val();
+  var goods_nm = document.getElementById('goods_nm').value;
+  var color = document.getElementById('color').value;
+  var size = document.getElementById('size').value;
+  var price = document.getElementById('price').value;
+  var img = document.getElementById("img_mod").src;
+
+  
+  return {
+    idx : idx,
+    category : category,
+    goods_nm : goods_nm,
+    color : color,
+    size : size,
+    price : price,
+    img : img
+  }
 }
 
 function AjaxCall2(method) {
@@ -167,7 +206,7 @@ function AjaxCall2(method) {
         dataType:"json",
         success : function(data, status, xhr) {
             console.log(data);
-            window.close();
+           
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log(jqXHR.responseText);
@@ -181,7 +220,7 @@ $(function(){
       return false;
     }else{
       window.close();
-      
+      opener.location.reload();
     }
    
   })
@@ -207,6 +246,7 @@ function AjaxCall3(method) {
         dataType:"json",
         success : function(data, status, xhr) {
             console.log(data);
+            location.reload();
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log(jqXHR.responseText);
@@ -220,6 +260,8 @@ $(function(){
       return false;
     }else{
       window.close();
+      opener.location.reload();
+      
     }
 
   })
@@ -240,26 +282,5 @@ $.fn.category = function(val) {
 
 
 </script>
-
-<!-- 이미지 base64로 변환 -->
-<script>
-      // function readImage(input){
-      //     if(input.files && input.files[0]){
-      //         const reader = new FileReader();
-            
-      //         reader.onload = e => {
-      //         const image = document.getElementById("img");
-      //         image.src = e.target.result;
-      //       }
-      //         reader.readAsDataURL(input.files[0]);
-      //       }
-      //   }
-
-      //   const inputImage = document.getElementById("input_image");
-      //   inputImage.addEventListener("change", e => {
-      //   readImage(e.target)
-      //   });
-    </script>
-
 </body>
 </html>

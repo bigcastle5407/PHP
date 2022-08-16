@@ -18,14 +18,10 @@
   <div class="form-group row">
     <label for="category" class="col-sm-2 col-form-label"><h3>카테고리</h3></label>
     <div class="col-sm-10">
-      <input type="radio" id="category1" name="category" value="top">
-      <label class="form-check-label" for="category1">상의</label>&nbsp;&nbsp;
-      <input type="radio" id="category2" name="category" value="bottom">
-      <label class="form-check-label" for="category2">하의</label>&nbsp;&nbsp;
-      <input type="radio" id="category3" name="category" value="shoes">
-      <label class="form-check-label" for="category3">신발</label>&nbsp;&nbsp;
-      <input type="radio" id="category4" name="category" value="accesary">
-      <label class="form-check-label" for="category4">악세사리</label>&nbsp;&nbsp;
+      <label><input type="radio" id="category1" name="category" value="top">상의</label>&nbsp;&nbsp;
+      <label><input type="radio" id="category2" name="category" value="bottom">하의</label>&nbsp;&nbsp;
+      <label><input type="radio" id="category3" name="category" value="shoes">신발</label>&nbsp;&nbsp;
+      <label><input type="radio" id="category4" name="category" value="accesary">악세사리</label>&nbsp;&nbsp;
     </div>
   </div>
   <div class="form-group row">
@@ -139,7 +135,7 @@
 
  function createData(){
   
-  var category = document.getElementsByName('category').value;
+  var category = $('input[name=category]:checked').val();
   var goods_nm = document.getElementById('goods_nm').value;
   var color = document.getElementById('color').value;
   var size = document.getElementById('size').value;
@@ -173,9 +169,19 @@ function AjaxCall(method) {
             console.log(jqXHR.responseText);
           }
         });
-        
-
 }
+
+$(function(){
+  $('#reg_btn').click(function(){
+    if(!confirm('등록하시겠습니까?')){
+      return false;
+    }else{
+      window.close();
+      opener.location.reload();
+    }
+   
+  })
+});
 </script>
 
 <!-- 사진 선택시 이미지 보이는 기능 -->
